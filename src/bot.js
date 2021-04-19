@@ -3,6 +3,7 @@ const log = require('./util/logger')
 const Discord = require('discord.js')
 const { initDatabase } = require('./db/database')
 const help = require('./commands/help')
+const verify = require('./commands/verify')
 
 // Get token
 const TOKEN = process.env.DISCORD_TOKEN
@@ -23,6 +24,12 @@ const TEST_USER = process.env.TEST_USER || null
 if (TEST_USER) {
 	log.warn(`Running with access only for ${TEST_USER}`)
 }
+const VERIFICATION_LINK = process.env.VERIFICATION_LINK
+if (!VERIFICATION_LINK) {
+	log.error(
+		'Running without verification link. Users will not be able to verify their address.',
+	)
+}
 
 // Spin up bot
 const bot = new Discord.Client()
@@ -30,6 +37,7 @@ bot.on('ready', () => {
 	log.info('Discord login successful!')
 	// Initialise commands
 	help.initHelp(bot, PREFIX)
+	verify.initVerify(VERIFICATION_LINK)
 	log.info('Commands initialised')
 })
 
@@ -38,9 +46,13 @@ bot.on('message', message => {
 	if (message.author.bot) {
 		return
 	}
-	// Ignore DMs
+
+	// Slide into those DMs
 	if (!message.guild) {
-		return
+		if (verify.isPending(message)) {
+			// Complete verification
+			return verify.completeVerification(message, [message.content])
+		}
 	}
 
 	// Check for bot command
@@ -67,6 +79,10 @@ bot.on('message', message => {
 	if (command === 'ping') {
 		log.info('ping')
 		return message.reply('pong')
+	}
+	// Verification commands
+	if (command === 'verify') {
+		return verify.prepareVerification(message, args)
 	}
 })
 

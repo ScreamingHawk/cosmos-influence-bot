@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="icon" href="avatar.png" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="Cosmos Address Verification" />
+	<link rel="apple-touch-icon" href="avatar.png" />
+	<title>Cosmos Address Verification</title>
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="main.css" />
+	<script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript"></script>
+	<script src="verifyAddress.js" type="text/javascript"></script>
+</head>
+<body>
+	<main>
+		<img src="avatar.png" alt="Cosmos" />
+		<h1>Cosmos Address Verification</h1>
+		<div class="flex gone" id="connectFlex">
+			<p>Please connect to MetaMask to begin verification.</p>
+			<button id="connect">Connect to MetaMask</button>
+		</div>
+		<div class="flex gone" id="signFlex">
+			<p>Please validate you are the owner of the address <code id="address">TBA</code> by signing this message:</p>
+			<button id="sign">Verify</button>
+		</div>
+		<div class="flex gone" id="thanksFlex">
+			<p>Please copy this signature and reply to Cosmos:</p>
+			<code id="signature">TBA</code>
+		</div>
+		<p id="message"><em>Loading...</em></p>
+	</main>
+	<footer id="footer" class="gone">Donate <input id="amount" type="number" step=".01" value="0.01" /> to <button id="donate"><strong>MilkyTaste 0x455fef</strong></button></footer>
+</body>
+</html>

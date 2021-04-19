@@ -34,6 +34,12 @@ Alternatively, run the bot in the background
 nohup yarn start >> server.log 2>&1 &
 ```
 
+Run the frontend website (for address verification)
+
+```
+yarn frontend
+```
+
 ### Test
 
 Run the unit tests with

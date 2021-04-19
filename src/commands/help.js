@@ -11,7 +11,17 @@ const initHelp = (botArg, prefixArg) => {
 		about: {
 			admin: false,
 			short: 'About Cosmos',
-			detailed: 'Cosmos is an interactive Discord bot that integrates with Influence.',
+			detailed:
+				'Cosmos is an interactive Discord bot that integrates with Influence.',
+		},
+		verify: {
+			admin: false,
+			short: 'Verify your ETH address',
+			detailed: [
+				`\`${prefix}verify <0xaddress>\``,
+				'Link your ETH address with your discord account.',
+				'Linking your address will give you access to other commands that need to know who you are.',
+			].join('\n'),
 		},
 	}
 }

@@ -1,0 +1,46 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+}
+
+body,
+button,
+input {
+	/* Intentionally don't style the code blocks */
+	font-family: 'Zen Dots', monospace;
+}
+
+main {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+footer {
+	margin: 1em;
+}
+
+.flex {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.gone {
+	display: none;
+}
+
+.error {
+	color: red;
+}

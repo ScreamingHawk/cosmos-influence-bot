@@ -32,6 +32,14 @@ const initHelp = (botArg, prefixArg) => {
 				'View the ETH address linked to a user (or to yourself).',
 			].join('\n'),
 		},
+		user: {
+			admin: false,
+			short: 'View the address of a user',
+			detailed: [
+				`\`${prefix}user <0xaddress>\``,
+				'View the user linked to an ETH address.',
+			].join('\n'),
+		},
 	}
 }
 

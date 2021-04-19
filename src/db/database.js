@@ -12,9 +12,13 @@ const initDatabase = () => {
 	if (!table['count(*)']) {
 		log.info('Creating addresses table')
 		sql
-			.prepare('CREATE TABLE addresses (address TEXT PRIMARY KEY, discord_id TEXT);')
+			.prepare(
+				'CREATE TABLE addresses (address TEXT PRIMARY KEY, discord_id TEXT);',
+			)
 			.run()
-		sql.prepare('CREATE UNIQUE INDEX idx_addresses_id ON addresses (address);').run()
+		sql
+			.prepare('CREATE UNIQUE INDEX idx_addresses_id ON addresses (address);')
+			.run()
 		// Set some SQL things
 		sql.pragma('synchronous = 1')
 		sql.pragma('journal_mode = wal')
@@ -24,9 +28,21 @@ const initDatabase = () => {
 // Addresses
 
 const getAddress = discordId => {
-	let address = sql.prepare('SELECT * FROM addresses WHERE discord_id = ?').get(discordId)
+	let address = sql
+		.prepare('SELECT * FROM addresses WHERE discord_id = ?')
+		.get(discordId)
 	if (address) {
 		return address.address
+	}
+	return null
+}
+
+const getDiscordId = addr => {
+	let address = sql
+		.prepare('SELECT * FROM addresses WHERE address = ?')
+		.get(addr)
+	if (address) {
+		return address.discord_id
 	}
 	return null
 }
@@ -45,5 +61,6 @@ const setAddress = (discordId, address) => {
 module.exports = {
 	initDatabase,
 	getAddress,
+	getDiscordId,
 	setAddress,
 }

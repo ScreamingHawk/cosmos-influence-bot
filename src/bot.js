@@ -39,6 +39,7 @@ bot.on('ready', () => {
 	// Initialise commands
 	help.initHelp(bot, PREFIX)
 	verify.initVerify(VERIFICATION_LINK)
+	info.initInfo(bot)
 	log.info('Commands initialised')
 })
 
@@ -88,6 +89,9 @@ bot.on('message', message => {
 	// Info commands
 	if (command === 'address') {
 		return info.showAddress(message, args)
+	}
+	if (command === 'user') {
+		return info.showUser(message, args)
 	}
 })
 

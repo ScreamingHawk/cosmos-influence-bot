@@ -23,6 +23,15 @@ const initHelp = (botArg, prefixArg) => {
 				'Linking your address will give you access to other commands that need to know who you are.',
 			].join('\n'),
 		},
+		address: {
+			admin: false,
+			short: 'View the address of a user',
+			detailed: [
+				`\`${prefix}address\``,
+				`\`${prefix}address @<username>\``,
+				'View the ETH address linked to a user (or to yourself).',
+			].join('\n'),
+		},
 	}
 }
 

@@ -4,6 +4,7 @@ const Discord = require('discord.js')
 const { initDatabase } = require('./db/database')
 const help = require('./commands/help')
 const verify = require('./commands/verify')
+const info = require('./commands/info')
 
 // Get token
 const TOKEN = process.env.DISCORD_TOKEN
@@ -83,6 +84,10 @@ bot.on('message', message => {
 	// Verification commands
 	if (command === 'verify') {
 		return verify.prepareVerification(message, args)
+	}
+	// Info commands
+	if (command === 'address') {
+		return info.showAddress(message, args)
 	}
 })
 

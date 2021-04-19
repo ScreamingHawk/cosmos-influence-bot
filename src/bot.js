@@ -4,7 +4,7 @@ const Discord = require('discord.js')
 const { initDatabase } = require('./db/database')
 const help = require('./commands/help')
 const verify = require('./commands/verify')
-const info = require('./commands/info')
+const userInfo = require('./commands/userInfo')
 
 // Get token
 const TOKEN = process.env.DISCORD_TOKEN
@@ -39,7 +39,7 @@ bot.on('ready', () => {
 	// Initialise commands
 	help.initHelp(bot, PREFIX)
 	verify.initVerify(VERIFICATION_LINK)
-	info.initInfo(bot)
+	userInfo.initUserInfo(bot)
 	log.info('Commands initialised')
 })
 
@@ -86,12 +86,12 @@ bot.on('message', message => {
 	if (command === 'verify') {
 		return verify.prepareVerification(message, args)
 	}
-	// Info commands
+	// User Info commands
 	if (command === 'address') {
-		return info.showAddress(message, args)
+		return userInfo.showAddress(message, args)
 	}
 	if (command === 'user') {
-		return info.showUser(message, args)
+		return userInfo.showUser(message, args)
 	}
 })
 

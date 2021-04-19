@@ -3,7 +3,7 @@ const { getAddress, getDiscordId } = require('../db/database')
 
 let bot
 
-const initInfo = botArg => {
+const initUserInfo = botArg => {
 	bot = botArg
 }
 
@@ -43,7 +43,7 @@ const showUser = async (message, args) => {
 }
 
 module.exports = {
-	initInfo,
+	initUserInfo,
 	showAddress,
 	showUser,
 }

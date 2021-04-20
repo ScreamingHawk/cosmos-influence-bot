@@ -55,9 +55,7 @@ const showUserAsteroids = async message => {
 	let roids
 	const errorMsg = `unable to get details ${user.username}'s asteroids`
 	try {
-		roids = await openseaApi.getUserAsteroids(
-			'0x455fef5aeCACcd3a43A4BCe2c303392E10f22C63',
-		)
+		roids = await openseaApi.getUserAsteroids(address)
 	} catch (err) {
 		log.error(errorMsg, err)
 		return message.reply(errorMsg)

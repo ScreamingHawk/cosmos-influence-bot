@@ -71,7 +71,9 @@ const showHelp = async (message, args) => {
 				`the ${helpCommand} command is only available for admins`,
 			)
 		}
-		embed.setDescription(`Here's some more info about ${helpCommand}`)
+		embed.setDescription(
+			`Here's some more info about the ${helpCommand} command`,
+		)
 		embed.addFields({ name: helpCommand, value: helpDetail.detailed })
 	} else {
 		// Complete help

@@ -38,7 +38,7 @@ test('admin sees all help info', async t => {
 	await help.showHelp(mockMessage, [])
 
 	// Then
-	t.is(5, fakeSend.firstArg.embed.fields.length)
+	t.is(8, fakeSend.firstArg.embed.fields.length)
 })
 
 test('non admin sees subset of help info', async t => {
@@ -52,5 +52,5 @@ test('non admin sees subset of help info', async t => {
 	await help.showHelp(mockMessage, [])
 
 	// Then
-	t.is(5, fakeSend.firstArg.embed.fields.length)
+	t.is(7, fakeSend.firstArg.embed.fields.length)
 })

@@ -4,10 +4,11 @@ const Discord = require('discord.js')
 const ethers = require('ethers')
 const { initDatabase } = require('./db/database')
 const asteroids = require('./commands/asteroids')
+const events = require('./commands/events')
 const help = require('./commands/help')
 const verify = require('./commands/verify')
 const userInfo = require('./commands/userInfo')
-const { initEvents } = require('./events/events')
+const { initListeners } = require('./events/listeners')
 
 // Get token
 const TOKEN = process.env.DISCORD_TOKEN
@@ -60,7 +61,7 @@ bot.on('ready', () => {
 	verify.initVerify(VERIFICATION_LINK)
 	userInfo.initUserInfo(bot)
 	asteroids.initAsteroids(bot, provider)
-	initEvents(bot, provider)
+	initListeners(bot, provider)
 	log.info('Commands initialised')
 })
 
@@ -120,6 +121,21 @@ bot.on('message', message => {
 	}
 	if (command === 'owned') {
 		return asteroids.showUserAsteroids(message, args)
+	}
+	// Event commands
+	if (command === 'events') {
+		return events.listEvents(message)
+	}
+
+	// Admin commands beyond this point
+	if (
+		message.member.hasPermission('ADMINISTRATOR') ||
+		(TEST_USER && message.author.username === TEST_USER)
+	) {
+		// Event commands
+		if (command === 'event') {
+			return events.toggleEvent(message, args)
+		}
 	}
 })
 

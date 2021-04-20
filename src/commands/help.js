@@ -62,6 +62,23 @@ const initHelp = (botArg, prefixArg) => {
 				'The user must have linked their address using the `verify` command.',
 			].join('\n'),
 		},
+		events: {
+			admin: false,
+			short: 'List the events that are reported in this channel',
+			detailed: [
+				`\`${prefix}events\``,
+				'Lists the events that are reported in this channel.',
+				'Ask an admin if you would like the event values updated.',
+			].join('\n'),
+		},
+		event: {
+			admin: true,
+			short: 'Toggle if an event is reported in this channel',
+			detailed: [
+				`\`${prefix}event <event>\``,
+				'Toggle whether or not an event is reported in this channel.',
+			].join('\n'),
+		},
 	}
 }
 

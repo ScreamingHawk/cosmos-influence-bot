@@ -30,6 +30,7 @@ const initHelp = (botArg, prefixArg) => {
 				`\`${prefix}address\``,
 				`\`${prefix}address @<username>\``,
 				'View the ETH address linked to a user (or to yourself).',
+				'The user must have linked their address using the `verify` command.',
 			].join('\n'),
 		},
 		user: {
@@ -38,6 +39,7 @@ const initHelp = (botArg, prefixArg) => {
 			detailed: [
 				`\`${prefix}user <0xaddress>\``,
 				'View the user linked to an ETH address.',
+				'The user must have linked their address using the `verify` command.',
 			].join('\n'),
 		},
 		asteroid: {
@@ -48,6 +50,16 @@ const initHelp = (botArg, prefixArg) => {
 				`\`${prefix}roid <id>\``,
 				'View the details of an asteroid using information from Opensea.',
 				'Opensea only exposes asteroids that have been minted and so these feature does not yet support unowned asteroids.',
+			].join('\n'),
+		},
+		owned: {
+			admin: false,
+			short: 'View the asteroids owned by a user',
+			detailed: [
+				`\`${prefix}owned\``,
+				`\`${prefix}owned @<username>\``,
+				'View a list of all asteroids owned by a user (or yourself).',
+				'The user must have linked their address using the `verify` command.',
 			].join('\n'),
 		},
 	}

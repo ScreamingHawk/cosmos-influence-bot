@@ -108,6 +108,9 @@ bot.on('message', message => {
 	if (command === 'asteroid' || command === 'roid') {
 		return asteroids.showAsteroidDetails(message, args)
 	}
+	if (command === 'owned') {
+		return asteroids.showUserAsteroids(message, args)
+	}
 })
 
 bot.login(TOKEN)

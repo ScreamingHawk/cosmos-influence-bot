@@ -40,6 +40,16 @@ const initHelp = (botArg, prefixArg) => {
 				'View the user linked to an ETH address.',
 			].join('\n'),
 		},
+		asteroid: {
+			admin: false,
+			short: 'View the details of an asteroid',
+			detailed: [
+				`\`${prefix}asteroid <id>\``,
+				`\`${prefix}roid <id>\``,
+				'View the details of an asteroid using information from Opensea.',
+				'Opensea only exposes asteroids that have been minted and so these feature does not yet support unowned asteroids.',
+			].join('\n'),
+		},
 	}
 }
 

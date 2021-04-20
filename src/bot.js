@@ -2,6 +2,7 @@ require('dotenv').config()
 const log = require('./util/logger')
 const Discord = require('discord.js')
 const { initDatabase } = require('./db/database')
+const asteroids = require('./commands/asteroids')
 const help = require('./commands/help')
 const verify = require('./commands/verify')
 const userInfo = require('./commands/userInfo')
@@ -25,10 +26,19 @@ const TEST_USER = process.env.TEST_USER || null
 if (TEST_USER) {
 	log.warn(`Running with access only for ${TEST_USER}`)
 }
-const VERIFICATION_LINK = process.env.VERIFICATION_LINK
+const {
+	VERIFICATION_LINK,
+	INFURA_PROJECT_ID,
+	INFURA_PROJECT_SECRET,
+} = process.env
 if (!VERIFICATION_LINK) {
 	log.error(
-		'Running without verification link. Users will not be able to verify their address.',
+		'Running without verification link. Users will not be able to verify their address',
+	)
+}
+if (!INFURA_PROJECT_ID || !INFURA_PROJECT_SECRET) {
+	log.error(
+		'Running without Infura API details. You will not be able to do anything on chain',
 	)
 }
 
@@ -40,6 +50,7 @@ bot.on('ready', () => {
 	help.initHelp(bot, PREFIX)
 	verify.initVerify(VERIFICATION_LINK)
 	userInfo.initUserInfo(bot)
+	asteroids.initAsteroids(bot, INFURA_PROJECT_ID, INFURA_PROJECT_SECRET)
 	log.info('Commands initialised')
 })
 
@@ -92,6 +103,10 @@ bot.on('message', message => {
 	}
 	if (command === 'user') {
 		return userInfo.showUser(message, args)
+	}
+	// Asteroid commands
+	if (command === 'asteroid' || command === 'roid') {
+		return asteroids.showAsteroidDetails(message, args)
 	}
 })
 

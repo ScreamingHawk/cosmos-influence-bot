@@ -21,7 +21,7 @@ const showAsteroidDetails = async (message, args) => {
 	let roid
 	const errorMsg = `unable to get details for asteroid #${id}`
 	try {
-		roid = await openseaApi.getAsteroid(id)
+		roid = await influenceApi.getAsteroid(id)
 	} catch (err) {
 		log.error(errorMsg, err)
 		return message.reply(errorMsg)
@@ -32,14 +32,16 @@ const showAsteroidDetails = async (message, args) => {
 
 	// Parse for display
 	const embed = new Discord.MessageEmbed()
-		.setTitle(`${roid.name} #${roid.token_id}`)
+		.setTitle(`${roid.name} #${id}`)
 		.setColor(0x1890dc)
 
-	roid.traits.map(t => embed.addFields({ name: t.trait_type, value: t.value }))
+	embed.addFields({ name: 'Description', value: roid.description })
+	roid.attributes.map(t =>
+		embed.addFields({ name: t.trait_type, value: t.value }),
+	)
 	embed.addFields({ name: 'Influence', value: influenceApi.getAsteroidUrl(id) })
 	embed.addFields({ name: 'OpenSea', value: openseaApi.getAsteroidUrl(id) })
-	embed.setImage(roid.image_url) //FIXME Discord doesn't support svgs here
-	embed.setFooter('Data provided by OpenSea', bot.user.displayAvatarURL())
+	embed.setFooter('Data provided by Influence', bot.user.displayAvatarURL())
 
 	return message.channel.send({ embed })
 }

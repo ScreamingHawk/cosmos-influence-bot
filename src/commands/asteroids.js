@@ -1,5 +1,4 @@
 const Discord = require('discord.js')
-const ethers = require('ethers')
 const { getAddress } = require('../db/database')
 const log = require('../util/logger')
 const influenceApi = require('../util/influenceApi')
@@ -7,17 +6,10 @@ const openseaApi = require('../util/openseaApi')
 
 let bot, provider
 
-const initAsteroids = (botArg, projectId, projectSecret) => {
+const initAsteroids = (botArg, providerArg) => {
 	bot = botArg
-	provider = ethers.getDefaultProvider('homestead', {
-		infura: {
-			projectId,
-			projectSecret,
-		},
-	})
-	provider.ready.then(() => {
-		log.info('Infura provider is ready')
-	})
+	//eslint-disable-next-line no-unused-vars
+	provider = providerArg
 }
 
 // Output asteroid details

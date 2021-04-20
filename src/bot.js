@@ -1,11 +1,13 @@
 require('dotenv').config()
 const log = require('./util/logger')
 const Discord = require('discord.js')
+const ethers = require('ethers')
 const { initDatabase } = require('./db/database')
 const asteroids = require('./commands/asteroids')
 const help = require('./commands/help')
 const verify = require('./commands/verify')
 const userInfo = require('./commands/userInfo')
+const { initEvents } = require('./events/events')
 
 // Get token
 const TOKEN = process.env.DISCORD_TOKEN
@@ -44,13 +46,21 @@ if (!INFURA_PROJECT_ID || !INFURA_PROJECT_SECRET) {
 
 // Spin up bot
 const bot = new Discord.Client()
+const provider = new ethers.providers.InfuraProvider(
+	'homestead',
+	INFURA_PROJECT_ID,
+)
+provider.ready.then(() => {
+	log.info('Infura provider is ready')
+})
 bot.on('ready', () => {
 	log.info('Discord login successful!')
 	// Initialise commands
 	help.initHelp(bot, PREFIX)
 	verify.initVerify(VERIFICATION_LINK)
 	userInfo.initUserInfo(bot)
-	asteroids.initAsteroids(bot, INFURA_PROJECT_ID, INFURA_PROJECT_SECRET)
+	asteroids.initAsteroids(bot, provider)
+	initEvents(bot, provider)
 	log.info('Commands initialised')
 })
 

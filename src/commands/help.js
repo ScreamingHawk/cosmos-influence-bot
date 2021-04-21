@@ -38,7 +38,7 @@ const initHelp = (botArg, prefixArg) => {
 		},
 		user: {
 			admin: false,
-			short: 'View the address of a user',
+			short: 'View the user of an address',
 			detailed: [
 				`\`${prefix}user <0xaddress>\``,
 				'View the user linked to an ETH address.',

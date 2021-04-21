@@ -1,7 +1,6 @@
 /* global ethers */
 /* eslint-disable no-console */
 document.addEventListener('DOMContentLoaded', () => {
-
 	// Update message
 	function renderMessage(message) {
 		let messageEl = document.getElementById('message')
@@ -28,14 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Check MetaMask installed
 	if (typeof window.ethereum === 'undefined') {
 		console.log('MetaMask is not installed!')
-		return renderMessage('You need to install <a href=“https://metmask.io“>MetaMask</a> to complete verification.')
+		return renderMessage(
+			'You need to install <a href="https://metmask.io">MetaMask</a> to complete verification.',
+		)
 	}
 
 	// Get the query params
 	let username, address
 	const qs = window.location.search.substr(1)
 	qs.split('&').forEach(q => {
-		const [ k, v ] = q.split('=')
+		const [k, v] = q.split('=')
 		if (k === 'username') {
 			username = v
 		} else if (k === 'address') {
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			document.getElementById('address').innerText = address
 		}
 	})
-	if (!username || !address){
+	if (!username || !address) {
 		console.log('Missing query params')
 		return renderMessage('Invalid link! Please check your link and try again.')
 	}
@@ -111,5 +112,4 @@ document.addEventListener('DOMContentLoaded', () => {
 	})
 
 	console.log('loaded')
-
 })

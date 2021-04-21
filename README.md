@@ -56,3 +56,5 @@ Edit the `.env` file and include a parameter `TEST_USER=<username>` where `<user
 [Michael Standen](https://michael.standen.link)
 
 This software is provided under the [MIT License](https://tldrlegal.com/license/mit-license) so it's free to use so long as you give me credit.
+
+To support the project you can donate some ether to `0x455fef5aeCACcd3a43A4BCe2c303392E10f22C63`.

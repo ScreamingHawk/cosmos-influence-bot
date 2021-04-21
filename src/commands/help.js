@@ -11,8 +11,11 @@ const initHelp = (botArg, prefixArg) => {
 		about: {
 			admin: false,
 			short: 'About Cosmos',
-			detailed:
+			detailed: [
 				'Cosmos is an interactive Discord bot that integrates with Influence.',
+				'Cosmos is open source. You can find the code at https://github.com/ScreamingHawk/cosmos-influence-bot',
+				'Consider donating to `0x455fef5aeCACcd3a43A4BCe2c303392E10f22C63` to support my continued existence.',
+			].join('\n'),
 		},
 		verify: {
 			admin: false,

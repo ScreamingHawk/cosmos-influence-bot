@@ -16,7 +16,11 @@ const sendToEventChannels = async (bot, event, message, address) => {
 				continue
 			}
 		}
-		chan.send(`${message} ${address || ''}`)
+		if (address) {
+			chan.send(`${message} \`${address}\``)
+		} else {
+			chan.send(`${message}`)
+		}
 	}
 }
 

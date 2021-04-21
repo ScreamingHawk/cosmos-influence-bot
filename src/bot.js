@@ -119,7 +119,7 @@ bot.on('message', message => {
 	if (command === 'asteroid' || command === 'roid') {
 		return asteroids.showAsteroidDetails(message, args)
 	}
-	if (command === 'owned') {
+	if (command === 'owned' || command === 'owner') {
 		return asteroids.showUserAsteroids(message, args)
 	}
 	// Event commands

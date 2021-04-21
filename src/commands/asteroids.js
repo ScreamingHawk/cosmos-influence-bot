@@ -1,4 +1,5 @@
 const Discord = require('discord.js')
+const ethers = require('ethers')
 const { getAddress } = require('../db/database')
 const log = require('../util/logger')
 const influenceApi = require('../util/influenceApi')
@@ -46,16 +47,33 @@ const showAsteroidDetails = async (message, args) => {
 	return message.channel.send({ embed })
 }
 
-const showUserAsteroids = async message => {
-	const user = message.mentions.users.first() || message.author
-	const address = getAddress(user.id)
+const showUserAsteroids = async (message, args) => {
+	let who
+	let user = message.mentions.users.first()
+	let address
+	if (user) {
+		// Tag
+		who = user.username
+		address = getAddress(user.id)
+	} else if (args) {
+		// Address arg
+		who = args[0]
+		address = who
+		if (!ethers.utils.isAddress(address)) {
+			return message.reply(`${who} is not a valid address`)
+		}
+	} else {
+		// Self
+		who = message.author.username
+		address = getAddress(message.author)
+	}
 
 	if (!address) {
-		return message.reply(`${user.username} has not verified their address`)
+		return message.reply(`${who} has not verified their address`)
 	}
 
 	let roids
-	const errorMsg = `unable to get details ${user.username}'s asteroids`
+	const errorMsg = `unable to get details ${who}'s asteroids`
 	try {
 		roids = await openseaApi.getUserAsteroids(address)
 	} catch (err) {
@@ -67,12 +85,12 @@ const showUserAsteroids = async message => {
 	}
 
 	if (!roids.assets) {
-		return message.reply(`${user.username} does not have any asteroids`)
+		return message.reply(`${who} does not have any asteroids`)
 	}
 
 	// Parse for display
 	const embed = new Discord.MessageEmbed()
-		.setTitle(`${user.username}'s Asteroids`)
+		.setTitle(`${who}'s Asteroids`)
 		.setColor(0x1890dc)
 
 	roids.assets.map(a =>

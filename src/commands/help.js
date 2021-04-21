@@ -59,10 +59,12 @@ const initHelp = (botArg, prefixArg) => {
 			admin: false,
 			short: 'View the asteroids owned by a user',
 			detailed: [
+				`\`${prefix}owner\``,
 				`\`${prefix}owned\``,
 				`\`${prefix}owned @<username>\``,
+				`\`${prefix}owned <0xaddress>\``,
 				'View a list of all asteroids owned by a user (or yourself).',
-				'The user must have linked their address using the `verify` command.',
+				'To use the tag the user must have linked their address using the `verify` command.',
 			].join('\n'),
 		},
 		events: {

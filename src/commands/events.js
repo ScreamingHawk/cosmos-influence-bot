@@ -16,7 +16,7 @@ const listEvents = message => {
 
 const toggleEvent = (message, args) => {
 	// Validate input
-	if (!args) {
+	if (!args.length) {
 		return message.reply('please supply an event to toggle')
 	}
 	const events = database.getChannelEvents(message.channel.id)

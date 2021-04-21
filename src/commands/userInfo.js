@@ -19,7 +19,7 @@ const showAddress = async message => {
 
 // Output address's user
 const showUser = async (message, args) => {
-	if (!args) {
+	if (!args.length) {
 		return message.reply('please supply an address to check')
 	}
 	const address = args[0]

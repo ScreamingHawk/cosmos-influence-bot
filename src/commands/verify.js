@@ -16,7 +16,7 @@ const validAddressError =
 // Prepare address verification
 const prepareVerification = async (message, args) => {
 	// Validate inputs
-	if (!args) {
+	if (!args.length) {
 		return message.reply(validAddressError)
 	}
 	const address = args[0]

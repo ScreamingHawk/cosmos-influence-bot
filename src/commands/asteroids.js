@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const ethers = require('ethers')
-const { getAddress } = require('../db/database')
+const database = require('../db/database')
 const log = require('../util/logger')
 const influenceApi = require('../util/influenceApi')
 const openseaApi = require('../util/openseaApi')
@@ -15,7 +15,7 @@ const initAsteroids = (botArg, providerArg) => {
 
 // Output asteroid details
 const showAsteroidDetails = async (message, args) => {
-	if (!args) {
+	if (!args.length) {
 		return message.reply('please supply an asteroid id to check')
 	}
 	const id = args[0]
@@ -54,8 +54,8 @@ const showUserAsteroids = async (message, args) => {
 	if (user) {
 		// Tag
 		who = user.username
-		address = getAddress(user.id)
-	} else if (args) {
+		address = database.getAddress(user.id)
+	} else if (args.length) {
 		// Address arg
 		who = args[0]
 		address = who
@@ -65,7 +65,7 @@ const showUserAsteroids = async (message, args) => {
 	} else {
 		// Self
 		who = message.author.username
-		address = getAddress(message.author)
+		address = database.getAddress(message.author.id)
 	}
 
 	if (!address) {

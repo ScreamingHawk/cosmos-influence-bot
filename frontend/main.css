@@ -18,6 +18,10 @@ input {
 	font-family: 'Zen Dots', monospace;
 }
 
+button {
+	cursor: pointer;
+}
+
 main {
 	flex: 1;
 	display: flex;

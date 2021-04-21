@@ -1,8 +1,10 @@
 const SQLite = require('better-sqlite3')
-const sql = new SQLite('./database.sqlite')
 const log = require('../util/logger')
+const DEFAULT_DB_FILENAME = './database.sqlite'
+let sql
 
-const initDatabase = () => {
+const initDatabase = dbFilename => {
+	sql = new SQLite(dbFilename || DEFAULT_DB_FILENAME)
 	// Addresses table
 	let table = sql
 		.prepare(

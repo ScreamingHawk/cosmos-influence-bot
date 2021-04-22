@@ -1,6 +1,8 @@
-const log = require('./logger')
-
 const checkAdmin = (message, alert = true) => {
+	if (!message.guild) {
+		// DM. Assume admin
+		return true
+	}
 	if (!message.member.hasPermission('ADMINISTRATOR')) {
 		if (alert) {
 			message.reply('only administators can do this')

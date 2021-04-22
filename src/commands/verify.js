@@ -25,12 +25,13 @@ const prepareVerification = async (message, args) => {
 	}
 
 	const { id, username } = message.author
+	const uname = username.replace(/\s/g, '_')
 	pendingVerifications[id] = {
-		username,
+		username: uname,
 		address,
 	}
 
-	const link = `${verificationLink}?username=${username}&address=${address}`
+	const link = `${verificationLink}?username=${uname}&address=${address}`
 
 	message.reply('lemme slide into those DMs')
 	return message.author.send(

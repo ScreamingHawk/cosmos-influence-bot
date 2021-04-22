@@ -1,7 +1,35 @@
 const ethers = require('ethers')
+const influence = require('influence-utils')
 const { listEventChannels, getDiscordId } = require('../db/database')
-const { getContract } = require('../util/contracts')
+const contractUtil = require('../util/contractUtil')
 const log = require('../util/logger')
+
+let bot
+
+const initListeners = async botArg => {
+	bot = botArg
+
+	// Transfer event
+	const asteroidToken = contractUtil.getContract('AsteroidToken')
+	asteroidToken.on('Transfer', (from, to, tokenId) => {
+		log.debug('Transfer event!')
+		if (from === ethers.constants.AddressZero) {
+			const msg = `Asteroid #${tokenId} was purchased by`
+			log.info(msg + to)
+			sendToEventChannels(bot, 'Transfer', msg, to)
+		}
+	})
+
+	// Asteroid Scanned event
+	const asteroidScans = contractUtil.getContract('AsteroidScans')
+	asteroidScans.on('AsteroidScanned', async (...args) => {
+		log.debug(`AsteroidScanned (${args.join(', ')})`)
+		const msg = await getAsteroidScannedMessage(...args)
+		sendToEventChannels(bot, 'AsteroidScanned', msg)
+	})
+
+	log.info('Listening for events')
+}
 
 const sendToEventChannels = async (bot, event, message, address) => {
 	const channels = listEventChannels(event).map(events => events.channel)
@@ -24,32 +52,26 @@ const sendToEventChannels = async (bot, event, message, address) => {
 	}
 }
 
-const initListeners = async (bot, provider) => {
-	// Transfer event
-	const asteroidToken = getContract('AsteroidToken', provider)
-	asteroidToken.on('Transfer', (from, to, tokenId) => {
-		log.debug('Transfer event!')
-		if (from === ethers.constants.AddressZero) {
-			const msg = `Asteroid #${tokenId} was purchased by`
-			log.info(msg + to)
-			sendToEventChannels(bot, 'Transfer', msg, to)
-		}
-	})
+const getAsteroidScannedMessage = async (asteroidId, bonuses) => {
+	let msg = `Asteroid #${asteroidId} was scanned`
+	try {
+		// Get the rarity
+		const asteroidFeatures = contractUtil.getContract('AsteroidFeatures')
+		const spectral = parseInt(
+			await asteroidFeatures.getSpectralType(asteroidId),
+		)
+		const rarity = influence.toRarity(influence.toBonuses(bonuses, spectral))
+		msg += ` and is \`${rarity}\``
+	} catch (err) {
+		log.error('Error getting spectral type', err)
+	}
 
-	// Asteroid Scanned event
-	const asteroidScans = getContract('AsteroidScans', provider)
-	//eslint-disable-next-line no-unused-vars
-	asteroidScans.on('AsteroidScanned', (asteroidId, bonuses) => {
-		log.debug('AsteroidScanned event!')
-		//TODO Get the rarity
-		const msg = `Asteroid #${asteroidId} was scanned`
-		log.info(msg)
-		sendToEventChannels(bot, 'AsteroidScanned', msg)
-	})
-
-	log.info('Listening for events')
+	log.info(msg)
+	return msg
 }
 
 module.exports = {
 	initListeners,
+	// Exported for testing
+	getAsteroidScannedMessage,
 }

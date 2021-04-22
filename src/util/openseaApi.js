@@ -1,5 +1,5 @@
 const fetch = require('node-fetch')
-const { addresses } = require('./contracts')
+const { addresses } = require('./contractUtil')
 const log = require('./logger')
 
 const OPENSEA_URL = 'https://opensea.io/assets'

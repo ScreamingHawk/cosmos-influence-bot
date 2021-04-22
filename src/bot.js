@@ -9,6 +9,7 @@ const help = require('./commands/help')
 const verify = require('./commands/verify')
 const userInfo = require('./commands/userInfo')
 const { initListeners } = require('./events/listeners')
+const { initContracts } = require('./util/contractUtil')
 
 // Get token
 const TOKEN = process.env.DISCORD_TOKEN
@@ -56,13 +57,18 @@ provider.ready.then(() => {
 })
 bot.on('ready', () => {
 	log.info('Discord login successful!')
+
+	// Initialise utils
+	initContracts(provider)
+	// Initialise listeners
+	initListeners(bot)
 	// Initialise commands
 	help.initHelp(bot, PREFIX)
 	verify.initVerify(VERIFICATION_LINK)
 	userInfo.initUserInfo(bot)
 	asteroids.initAsteroids(bot, provider)
-	initListeners(bot, provider)
-	log.info('Commands initialised')
+
+	log.info('Cosmos initialised')
 })
 
 bot.on('message', message => {

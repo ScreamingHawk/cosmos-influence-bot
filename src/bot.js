@@ -77,12 +77,10 @@ bot.on('message', message => {
 		return
 	}
 
-	// Slide into those DMs
-	if (!message.guild) {
-		if (verify.isPending(message)) {
-			// Complete verification
-			return verify.completeVerification(message, [message.content])
-		}
+	// Slide into those DMs for verification
+	if (!message.guild && verify.isPending(message)) {
+		// Complete verification
+		return verify.completeVerification(message, [message.content])
 	}
 
 	// Check for bot command

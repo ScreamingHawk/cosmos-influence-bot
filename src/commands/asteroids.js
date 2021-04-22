@@ -36,12 +36,10 @@ const showAsteroidDetails = async (message, args) => {
 		.setTitle(`${roid.name} #${id}`)
 		.setColor(0x1890dc)
 
-	embed.addFields({ name: 'Description', value: roid.description })
-	roid.attributes.map(t =>
-		embed.addFields({ name: t.trait_type, value: t.value }),
-	)
-	embed.addFields({ name: 'Influence', value: influenceApi.getAsteroidUrl(id) })
-	embed.addFields({ name: 'OpenSea', value: openseaApi.getAsteroidUrl(id) })
+	embed.addField('Description', roid.description, true)
+	roid.attributes.map(t => embed.addField(t.trait_type, t.value, true))
+	embed.addField('Influence', influenceApi.getAsteroidUrl(id), true)
+	embed.addField('OpenSea', openseaApi.getAsteroidUrl(id), true)
 	embed.setFooter('Data provided by Influence', bot.user.displayAvatarURL())
 
 	return message.channel.send({ embed })
@@ -94,10 +92,10 @@ const showUserAsteroids = async (message, args) => {
 		.setColor(0x1890dc)
 
 	roids.assets.map(a =>
-		embed.addFields({
-			name: `${a.name} #${a.token_id}`,
-			value: influenceApi.getAsteroidUrl(a.token_id),
-		}),
+		embed.addField(
+			`${a.name} #${a.token_id}`,
+			influenceApi.getAsteroidUrl(a.token_id),
+		),
 	)
 	embed.setFooter('Data provided by OpenSea', bot.user.displayAvatarURL())
 

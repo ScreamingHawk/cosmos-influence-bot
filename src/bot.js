@@ -9,6 +9,7 @@ const help = require('./commands/help')
 const verify = require('./commands/verify')
 const userInfo = require('./commands/userInfo')
 const { initListeners } = require('./events/listeners')
+const { initPresence } = require('./events/presence')
 const { initContracts } = require('./util/contractUtil')
 
 // Get token
@@ -60,6 +61,8 @@ bot.on('ready', () => {
 
 	// Initialise utils
 	initContracts(provider)
+	// Initialise discord presence
+	initPresence(bot)
 	// Initialise listeners
 	initListeners(bot)
 	// Initialise commands

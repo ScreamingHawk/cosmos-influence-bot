@@ -33,7 +33,7 @@ const prepareVerification = async (message, args) => {
 
 	const link = `${verificationLink}?username=${uname}&address=${address}`
 
-	if (!message.guild) {
+	if (message.guild) {
 		message.reply('Initiating private communications...')
 	}
 	return message.author.send(

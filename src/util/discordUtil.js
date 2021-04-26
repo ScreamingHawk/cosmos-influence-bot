@@ -6,7 +6,7 @@ const checkAdmin = (message, alert = true) => {
 		return true
 	}
 	//FIXME This is bug testing code
-	if (!message.member) {
+	if (message.member === null) {
 		log.error(
 			'For some reason the message has no member... Need to investigate',
 		)

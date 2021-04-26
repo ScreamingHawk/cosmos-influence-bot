@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (typeof window.ethereum === 'undefined') {
 		console.log('MetaMask is not installed!')
 		return renderMessage(
-			'You need to install <a href="https://metmask.io">MetaMask</a> to complete verification.',
+			'You need to install <a href="https://metamask.io">MetaMask</a> to complete verification.',
 		)
 	}
 

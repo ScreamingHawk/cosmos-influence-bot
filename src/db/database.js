@@ -43,16 +43,11 @@ const initDatabase = dbFilename => {
 				'CREATE UNIQUE INDEX idx_channel_events_id ON channel_events (channel);',
 			)
 			.run()
-		sql
-			.prepare(
-				'CREATE UNIQUE INDEX idx_channel_events_transfer ON channel_events (Transfer);',
-			)
-			.run()
-		sql
-			.prepare(
-				'CREATE UNIQUE INDEX idx_channel_events_scanned ON channel_events (AsteroidScanned);',
-			)
-			.run()
+	} else {
+		// Remove unwanted indices
+		log.info('Removing channel_events indices')
+		sql.prepare('DROP INDEX IF EXISTS idx_channel_events_transfer;').run()
+		sql.prepare('DROP INDEX IF EXISTS idx_channel_events_scanned;').run()
 	}
 }
 

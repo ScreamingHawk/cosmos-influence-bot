@@ -19,6 +19,7 @@ const toggleEvent = (message, args) => {
 	if (!args.length) {
 		return message.reply('please supply an event to toggle')
 	}
+	log.debug(`Toggling ${args[0]} event in ${message.channel.id}`)
 	const events = database.getChannelEvents(message.channel.id)
 	const event = Object.keys(events)
 		.filter(e => e[0] !== 'channel')

@@ -1,8 +1,18 @@
-const test = require('ava')
+const ava = require('ava')
+const test = ava.serial
+const fs = require('fs')
 const database = require('./database')
+const log = require('../util/logger')
 
-test.before(() => {
-	database.initDatabase()
+const testDb = 'database.test.sqlite'
+
+test.beforeEach(() => {
+	if (fs.existsSync(testDb)) {
+		// Delete old DB
+		log.debug('Deleting old DB')
+		fs.unlinkSync(testDb)
+	}
+	database.initDatabase(testDb)
 })
 
 test('address table works', t => {
@@ -16,8 +26,6 @@ test('address table works', t => {
 	// Validate
 	let actual = database.getAddress(discordId)
 	t.is(address, actual)
-
-	//TODO Clean Up
 })
 
 test('channel events table works', t => {
@@ -40,9 +48,30 @@ test('channel events table works', t => {
 	t.deepEqual(channel, actual[0].channel)
 	actual = database.listEventChannels('AsteroidScanned')
 	t.is(0, actual.length)
+})
+
+test('multiple channel events', t => {
+	// Set up
+	const createEvents = c => {
+		return {
+			channel: c,
+			Transfer: 1,
+			AsteroidScanned: 0,
+		}
+	}
+	const channel1 = '1231'
+	const channel2 = '1232'
+
+	database.setChannelEvents(createEvents(channel1))
+	database.setChannelEvents(createEvents(channel2))
+
+	// Test
+	let actual = database.listEventChannels('Transfer')
+	t.is(2, actual.length)
 
 	// Clean Up
-	database.removeChannelEvents(channel)
+	database.removeChannelEvents(channel1)
+	database.removeChannelEvents(channel2)
 	actual = database.listEventChannels('Transfer')
 	t.is(0, actual.length)
 })

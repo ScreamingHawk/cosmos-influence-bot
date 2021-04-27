@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const ethers = require('ethers')
 const database = require('../db/database')
 const log = require('../util/logger')
+const contractUtil = require('../util/contractUtil')
 const influenceApi = require('../util/influenceApi')
 const openseaApi = require('../util/openseaApi')
 
@@ -76,10 +77,15 @@ const showUserAsteroids = async (message, args) => {
 
 	const pageNum = args.length > 1 ? args[1] : 1
 
-	let roids
+	let roids, totalPages
 	const errorMsg = `unable to get details ${who}'s asteroids`
 	try {
 		roids = await openseaApi.getUserAsteroids(address, pageNum)
+
+		// Look up contract for total asteroid count
+		const tokenContract = contractUtil.getContract('AsteroidToken')
+		const total = await tokenContract.balanceOf(address)
+		totalPages = Math.ceil(total / openseaApi.API_LIMIT)
 	} catch (err) {
 		log.error(errorMsg, err)
 		return message.reply(errorMsg)
@@ -87,10 +93,13 @@ const showUserAsteroids = async (message, args) => {
 	if (!roids) {
 		return message.reply(errorMsg)
 	}
+	if (totalPages === 0) {
+		return message.reply(`${who} does not have any asteroids`)
+	}
 
 	// Parse for display
 	const embed = new Discord.MessageEmbed()
-		.setTitle(`${who}'s Asteroids (page ${pageNum})`)
+		.setTitle(`${who}'s Asteroids (page ${pageNum} of ${totalPages})`)
 		.setColor(0x1890dc)
 
 	if (!roids.assets || !roids.assets.length) {

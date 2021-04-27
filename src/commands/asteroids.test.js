@@ -13,6 +13,7 @@ const mockBot = {
 	user: {
 		username: 'username',
 		avatarURL: () => 'avatar',
+		displayAvatarURL: () => 'avatar',
 	},
 }
 
@@ -22,8 +23,15 @@ const mockUser = {
 }
 
 //TODO There has to be a better way...
-const createMessage = (fakeReply = () => {}, fakeMention = () => {}) => ({
+const createMessage = (
+	fakeReply = () => {},
+	fakeMention = () => {},
+	fakeSend = () => {},
+) => ({
 	reply: fakeReply,
+	channel: {
+		send: fakeSend,
+	},
 	mentions: {
 		users: {
 			first: fakeMention,
@@ -48,7 +56,8 @@ test('showUserAsteroids for current user uses current user address', async t => 
 	openseaStub.returns([]) // Mock roids
 
 	const fakeReply = sinon.fake()
-	const mockMessage = createMessage(fakeReply)
+	const fakeSend = sinon.fake()
+	const mockMessage = createMessage(fakeReply, () => {}, fakeSend)
 
 	// When
 	await asteroids.showUserAsteroids(mockMessage, [])

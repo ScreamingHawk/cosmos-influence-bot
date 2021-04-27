@@ -60,8 +60,10 @@ const initHelp = (botArg, prefixArg) => {
 				`\`${prefix}owned\``,
 				`\`${prefix}owned @<username>\``,
 				`\`${prefix}owned <0xaddress>\``,
+				`\`${prefix}owned <identifier> <page_number>\``,
 				'View a list of all asteroids owned by a user (or yourself).',
-				'To use the tag the user must have linked their address using the `verify` command.',
+				`Add a page number to view the scroll the list. e.g. \`${prefix}owner @MilkyTaste 2\`.`,
+				`To use the tag the user must have linked their address using the \`${prefix}verify\` command.`,
 			].join('\n'),
 		},
 		events: {

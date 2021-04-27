@@ -74,10 +74,12 @@ const showUserAsteroids = async (message, args) => {
 		return message.reply(`${who} has not verified their address`)
 	}
 
+	const pageNum = args.length > 1 ? args[1] : 1
+
 	let roids
 	const errorMsg = `unable to get details ${who}'s asteroids`
 	try {
-		roids = await openseaApi.getUserAsteroids(address)
+		roids = await openseaApi.getUserAsteroids(address, pageNum)
 	} catch (err) {
 		log.error(errorMsg, err)
 		return message.reply(errorMsg)
@@ -86,18 +88,19 @@ const showUserAsteroids = async (message, args) => {
 		return message.reply(errorMsg)
 	}
 
-	if (!roids.assets) {
-		return message.reply(`${who} does not have any asteroids`)
-	}
-
 	// Parse for display
 	const embed = new Discord.MessageEmbed()
-		.setTitle(`${who}'s Asteroids`)
+		.setTitle(`${who}'s Asteroids (page ${pageNum})`)
 		.setColor(0x1890dc)
 
-	roids.assets.map(a =>
-		embed.addField(`${a.name} #${a.token_id}`, `${getRoidLinks(a.token_id)}`),
-	)
+	if (!roids.assets || !roids.assets.length) {
+		embed.setDescription('No asteroids')
+	} else {
+		roids.assets.map(a =>
+			embed.addField(`${a.name} #${a.token_id}`, `${getRoidLinks(a.token_id)}`),
+		)
+	}
+
 	embed.setFooter('Data provided by OpenSea', bot.user.displayAvatarURL())
 
 	return message.channel.send({ embed })

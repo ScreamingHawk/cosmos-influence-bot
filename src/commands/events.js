@@ -7,7 +7,7 @@ const listEvents = message => {
 	let msg = Object.entries(events)
 		// Filter channel itself
 		.filter(e => e[0] !== 'channel')
-		.map(e => `${e[1] ? '✔️' : '❌'} ${e[0]}`)
+		.map(e => `${e[1] ? '✅' : '❎'} ${e[0]}`)
 		.join('\n')
 	return message.reply(
 		`this channel is listening to the following events:\n${msg}`,

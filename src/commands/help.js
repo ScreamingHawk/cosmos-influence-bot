@@ -12,11 +12,7 @@ const initHelp = (botArg, prefixArg) => {
 		about: {
 			admin: false,
 			short: 'About Cosmos',
-			detailed: [
-				'Cosmos is an interactive Discord bot that integrates with Influence.',
-				'Cosmos is open source. You can find the code at https://github.com/ScreamingHawk/cosmos-influence-bot',
-				`Consider donating to \`${MILKY_ADDRESS}\` to support my continued existence.`,
-			].join('\n'),
+			detailed: 'Learn more aout Cosmos',
 		},
 		verify: {
 			admin: false,
@@ -125,7 +121,26 @@ const showHelp = async (message, args) => {
 	return message.channel.send({ embed })
 }
 
+const showAbout = async message => {
+	const aboutMsg = [
+		'I, Cosmos, am an interactive Discord bot that integrates with Influence.',
+		`For more information about what I can do, try the \`${prefix}help\` command.`,
+		'My programming is open. You can find my source code on [GitHub](https://github.com/ScreamingHawk/cosmos-influence-bot).',
+		`Consider donating to my creator, MilkyTaste, to support my continued existence.\n\`${MILKY_ADDRESS}\``,
+	].join('\n\n')
+
+	// Embedded help
+	const embed = new Discord.MessageEmbed()
+		.setTitle('About Cosmos')
+		.setAuthor(bot.user.username, bot.user.avatarURL())
+		.setColor(0xadff2f)
+		.setDescription(aboutMsg)
+
+	return message.channel.send({ embed })
+}
+
 module.exports = {
 	initHelp,
 	showHelp,
+	showAbout,
 }

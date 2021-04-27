@@ -104,8 +104,7 @@ bot.on('message', message => {
 		return help.showHelp(message, args)
 	}
 	if (command === 'about') {
-		// Alias for 'help about'
-		return help.showHelp(message, ['about'])
+		return help.showAbout(message)
 	}
 	if (command === 'ping') {
 		log.info('ping')

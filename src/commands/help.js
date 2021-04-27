@@ -103,13 +103,13 @@ const showHelp = async (message, args) => {
 			)
 		}
 		embed.setDescription(
-			`Here's some more info about the ${helpCommand} command`,
+			`Here is some more information about the \`${helpCommand}\` command`,
 		)
 		embed.addField(helpCommand, helpDetail.detailed)
 	} else {
 		// Complete help
 		embed.setDescription(
-			`Here's all the things I can do!\nType \`${prefix}help command\` for more info about a command`,
+			`Here is a list of my functions.\nType \`${prefix}help command\` for more info about a command`,
 		)
 		for (const [command, value] of Object.entries(HELP_DETAILS)) {
 			if (!(value.admin && !isAdmin)) {

@@ -15,11 +15,12 @@ const validAddressError =
 
 // Prepare address verification
 const prepareVerification = async (message, args) => {
+	log.debug('Preparing verification')
 	// Validate inputs
 	if (!args.length) {
 		return message.reply(validAddressError)
 	}
-	const address = args[0]
+	const address = args[0].toLowerCase()
 	if (!ethers.utils.isAddress(address)) {
 		return message.reply(validAddressError)
 	}
@@ -55,7 +56,7 @@ const completeVerification = async (message, args) => {
 				`${username} owns ${address}`,
 				signature,
 			)
-			if (signer !== address) {
+			if (signer.toLowerCase() !== address) {
 				return message.reply(
 					'You signed the request with the wrong address. Please try again',
 				)

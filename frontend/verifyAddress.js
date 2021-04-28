@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (k === 'username') {
 			username = v
 		} else if (k === 'address') {
-			address = v
-			document.getElementById('address').innerText = address
+			document.getElementById('address').innerText = v
+			address = v.toLowerCase()
 		}
 	})
 	if (!username || !address) {
@@ -101,7 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
 			return renderError(err)
 		}
 		const signingAddr = ethers.utils.verifyMessage(msg, signature)
-		if (signingAddr !== address) {
+		if (signingAddr.toLowerCase() !== address) {
+			console.log(`Expected address: ${address}`)
+			console.log(`Got address: ${signingAddr}`)
 			return renderError('Please sign the request with the correct address')
 		}
 		// Update signature and show

@@ -50,14 +50,19 @@ const completeVerification = async (message, args) => {
 	if (isPending(message) && signature) {
 		const { id } = message.author
 		const { username, address } = pendingVerifications[id]
-		const signer = ethers.utils.verifyMessage(
-			`${username} owns ${address}`,
-			signature,
-		)
-		if (signer !== address) {
-			return message.reply(
-				'You signed the request with the wrong address. Please try again',
+		try {
+			const signer = ethers.utils.verifyMessage(
+				`${username} owns ${address}`,
+				signature,
 			)
+			if (signer !== address) {
+				return message.reply(
+					'You signed the request with the wrong address. Please try again',
+				)
+			}
+		} catch (err) {
+			log.error('Unable to validate signature', err)
+			return message.reply('Unable to validate that signature')
 		}
 		log.info(`Verified that ${username} owns ${address}`)
 		setAddress(id, address)

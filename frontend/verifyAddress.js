@@ -89,10 +89,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	const signButton = document.getElementById('sign')
 	signButton.addEventListener('click', async () => {
 		const msg = `${username} owns ${address}`
-		const signer = provider.getSigner()
 		let signature
 		try {
-			signature = await signer.signMessage(msg)
+			// signature = await signer.signMessage(msg)
+			signature = await provider.send('personal_sign', [
+				ethers.utils.hexlify(ethers.utils.toUtf8Bytes(msg)),
+				address,
+			])
 		} catch (err) {
 			return renderError(err)
 		}

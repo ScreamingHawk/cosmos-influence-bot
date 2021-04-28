@@ -1,6 +1,28 @@
 /* global ethers */
 /* eslint-disable no-console */
 document.addEventListener('DOMContentLoaded', () => {
+	// Unpkg imports
+	const Web3Modal = window.Web3Modal.default
+	const WalletConnectProvider = window.WalletConnectProvider.default
+
+	// Chosen wallet provider given by the dialog window
+	let provider
+
+	const providerOptions = {
+		walletconnect: {
+			package: WalletConnectProvider,
+			options: {
+				infuraId: '240248d1c65143c082ae6b411905d45a',
+			},
+		},
+	}
+
+	let web3Modal = new Web3Modal({
+		cacheProvider: false, // optional
+		providerOptions, // required
+		disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
+	})
+
 	// Update message
 	function renderMessage(message) {
 		let messageEl = document.getElementById('message')
@@ -24,14 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		return renderMessage(message)
 	}
 
-	// Check MetaMask installed
-	if (typeof window.ethereum === 'undefined') {
-		console.log('MetaMask is not installed!')
-		return renderMessage(
-			'You need to install <a href="https://metamask.io">MetaMask</a> to complete verification.',
-		)
-	}
-
 	// Get the query params
 	let username, address
 	const qs = window.location.search.substr(1)
@@ -53,13 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
 	document.getElementById('connectFlex').classList.remove('gone')
 	clearMessage()
 
-	// Connection button
-	const connectButton = document.getElementById('connect')
-	connectButton.addEventListener('click', async () => {
+	// Connect button
+	const connectBtn = document.getElementById('connectBtn')
+	connectBtn.addEventListener('click', async () => {
 		try {
-			await window.ethereum.enable()
+			provider = await web3Modal.connect()
+			provider = new ethers.providers.Web3Provider(provider)
 		} catch (err) {
-			return renderError(err)
+			const msg = 'Could not get a wallet connection'
+			console.log(msg, err)
+			return renderError(msg)
 		}
 		// Show next section
 		clearMessage()
@@ -72,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const signButton = document.getElementById('sign')
 	signButton.addEventListener('click', async () => {
 		const msg = `${username} owns ${address}`
-		const provider = new ethers.providers.Web3Provider(window.ethereum)
 		const signer = provider.getSigner()
 		let signature
 		try {

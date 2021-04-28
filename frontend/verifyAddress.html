@@ -11,7 +11,11 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="main.css" />
+
 	<script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript"></script>
+	<script src="https://unpkg.com/web3modal@1.9.0/dist/index.js" type="text/javascript" ></script>
+	<script src="https://unpkg.com/@walletconnect/web3-provider@1.2.1/dist/umd/index.min.js" type="text/javascript" ></script>
+
 	<script src="verifyAddress.js" type="text/javascript"></script>
 </head>
 <body>
@@ -19,8 +23,10 @@
 		<img src="avatar.png" alt="Cosmos" />
 		<h1>Cosmos Address Verification</h1>
 		<div class="flex gone" id="connectFlex">
-			<p>Please connect to MetaMask to begin verification.</p>
-			<button id="connect">Connect to MetaMask</button>
+			<p>Please connect to your wallet to begin verification.</p>
+			<div>
+				<button id="connectBtn">Connect Wallet</button>
+			</div>
 		</div>
 		<div class="flex gone" id="signFlex">
 			<p>Please validate you are the owner of the address <code id="address">TBA</code> by signing this message:</p>

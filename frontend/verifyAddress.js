@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Connect button
 	const connectBtn = document.getElementById('connectBtn')
 	connectBtn.addEventListener('click', async () => {
+		await window.Web3Modal.removeLocal('walletconnect')
 		try {
 			provider = await web3Modal.connect()
 			provider = new ethers.providers.Web3Provider(provider)

@@ -38,7 +38,11 @@ const prepareVerification = async (message, args) => {
 		message.reply('initiating private communications...')
 	}
 	return message.author.send(
-		`Please verify you own the address \`${address}\` at the following link:\n${link}`,
+		[
+			`Please verify you own the address \`${address}\` at the following link:`,
+			link,
+			'Then copy the signature and paste it into **this** chat.',
+		].join('\n'),
 	)
 }
 

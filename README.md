@@ -16,7 +16,7 @@ Please see below for additional technical information.
 
 _**--- End transmission ---**_
 
-Cosmos is a bot in Discord that listens for asteroid purchase and scan events in game. 
+Cosmos is a bot in Discord that listens for asteroid purchase and scan events in game.
 You can use commands to pull information about asteroids (ownership, rarity, etc) from the blockchain and [OpenSea](https://opensea.io).
 You can link your address to get additional, personalised commands and tags.
 
@@ -36,12 +36,12 @@ If you would like to contribute to the project please check out the [Contributin
 
 ### Configuration
 
-Copy the `.env.example` file to `.env` and populate the values as per below. 
+Copy the `.env.example` file to `.env` and populate the values as per below.
 
 Create a bot as per the [Discord bot documentation](https://discord.com/developers/docs/intro).
 Retrieve the bot token and set it as the value for `DISCORD_TOKEN`.
 
-Set the prefix for commands using `PREFIX`. 
+Set the prefix for commands using `PREFIX`.
 **Note**: Cosmos uses `+` in the Influence server.
 
 Set the `TEST_USER` for testing purposes defined in the test section below.
@@ -70,10 +70,13 @@ Run the bot:
 yarn start
 ```
 
-Alternatively, run the bot in the background:
+Check, monitor, stop and remove the running instance:
 
 ```
-nohup yarn start >> server.log 2>&1 &
+yarn pm2 ls
+yarn logs
+yarn stop
+yarn delete
 ```
 
 Run the frontend website (for address verification):

@@ -19,7 +19,7 @@ const getAsteroid = async id => {
 
 const getUserAsteroids = async (address, page = 1) => {
 	const offset = API_LIMIT * (page - 1)
-	const api = `${OPENSEA_API}/assets?asset_contract_address=${addresses['AsteroidToken']}&owner=${address}&offset=${offset}&limit=${API_LIMIT}`
+	const api = `${OPENSEA_API}/assets?asset_contract_address=${addresses['AsteroidToken']}&owner=${address}&offset=${offset}&limit=${API_LIMIT}&order_by=token_id&order_direction=asc`
 	log.debug(`Requesting ${api}`)
 	const res = await fetch(api)
 	return await res.json()

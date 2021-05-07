@@ -124,7 +124,7 @@ const showUserAsteroids = async (message, args) => {
 		embed.setDescription('No asteroids')
 	} else {
 		roids.assets.map(a =>
-			embed.addField(`${a.name} #${a.token_id}`, `${getRoidLinks(a.token_id)}`),
+			embed.addField(`#${a.token_id} ${a.name}`, `${getRoidLinks(a.token_id)}`),
 		)
 	}
 

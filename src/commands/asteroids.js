@@ -123,12 +123,20 @@ const showUserAsteroids = async (message, args) => {
 	if (!roids.assets || !roids.assets.length) {
 		embed.setDescription('No asteroids')
 	} else {
-		roids.assets.map(a =>
-			embed.addField(`#${a.token_id} ${a.name}`, `${getRoidLinks(a.token_id)}`),
-		)
+		for (const roid of roids.assets) {
+			const details = await influenceApi.getAsteroid(roid.token_id)
+			influenceApi.addDescription(details)
+			embed.addField(
+				`#${roid.token_id} ${roid.name}`,
+				`${details.description}\n${getRoidLinks(roid.token_id)}`,
+			)
+		}
 	}
 
-	embed.setFooter('Data provided by OpenSea', bot.user.displayAvatarURL())
+	embed.setFooter(
+		'Data provided by Influence and OpenSea',
+		bot.user.displayAvatarURL(),
+	)
 
 	return message.channel.send({ embed })
 }

@@ -52,6 +52,9 @@ Update the `VERIFICATION_LINK` to point to a location where the user is able to 
 Sign up for an [Infura](https://infura.io) project API key.
 Populate the `INFURA_PROJECT_ID` and `INFURA_PROJECT_SECRET` values.
 
+Request an API key from a member of the Influence development team via the [Influence Discord](https://discord.gg/pEeBHF8WsK).
+Populate the `INFLUENCE_API_KEY` value.
+
 ### Build
 
 Install `node` and `yarn`.

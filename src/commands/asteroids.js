@@ -5,6 +5,7 @@ const log = require('../util/logger')
 const contractUtil = require('../util/contractUtil')
 const influenceApi = require('../util/influenceApi')
 const openseaApi = require('../util/openseaApi')
+const { formatNumber } = require('../util/format')
 const help = require('./help')
 
 let bot, provider
@@ -40,12 +41,24 @@ const showAsteroidDetails = async (message, args) => {
 
 	// Parse for display
 	const embed = new Discord.MessageEmbed()
-		.setTitle(`${roid.name} #${id}`)
+		.setTitle(`#${id} ${roid.name}`)
 		.setColor(0x1890dc)
 
-	embed.addField('Description', roid.description, true)
-	roid.attributes.map(t => embed.addField(t.trait_type, t.value, true))
-	embed.addField('Links', `View on: ${getRoidLinks(id)}`)
+	influenceApi.addDescription(roid)
+	influenceApi.addOrbit(roid)
+
+	embed.addField('Description', roid.description, false)
+
+	// Details
+	embed.addField('Radius', `${formatNumber(roid.radius)}m`, true)
+	embed.addField('Inclination', `${formatNumber(roid.inclination, 2)}˚`, true)
+	embed.addField('Orbital', `${formatNumber(roid.period, 2)} days`, true)
+
+	// Bonuses
+	roid.bonuses.map(t =>
+		embed.addField(t.name.replace(/\d/g, ''), `+${t.modifier}%`, true),
+	)
+	embed.addField('Links', `View on: ${getRoidLinks(id)}`, false)
 	embed.setFooter('Data provided by Influence', bot.user.displayAvatarURL())
 
 	return message.channel.send({ embed })

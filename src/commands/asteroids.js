@@ -5,6 +5,7 @@ const log = require('../util/logger')
 const contractUtil = require('../util/contractUtil')
 const influenceApi = require('../util/influenceApi')
 const openseaApi = require('../util/openseaApi')
+const help = require('./help')
 
 let bot, provider
 
@@ -72,7 +73,11 @@ const showUserAsteroids = async (message, args) => {
 	}
 
 	if (!address) {
-		return message.reply(`${who} has not verified their address`)
+		await message.reply(`${who} has not verified their address`)
+		if (who === message.author.username) {
+			return help.showHelp(message, ['verify'])
+		}
+		return
 	}
 
 	const pageNum = args.length > 1 ? args[1] : 1

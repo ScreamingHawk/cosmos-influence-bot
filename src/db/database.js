@@ -1,5 +1,7 @@
 const SQLite = require('better-sqlite3')
 const log = require('../util/logger')
+const founders = require('../../founders.json')
+
 const DEFAULT_DB_FILENAME = './database.sqlite'
 let sql
 
@@ -49,6 +51,25 @@ const initDatabase = dbFilename => {
 		sql.prepare('DROP INDEX IF EXISTS idx_channel_events_transfer;').run()
 		sql.prepare('DROP INDEX IF EXISTS idx_channel_events_scanned;').run()
 	}
+	// Founder role table
+	table = sql
+		.prepare(
+			'SELECT count(*) FROM sqlite_master WHERE type = \'table\' AND name = \'founder_roles\';',
+		)
+		.get()
+	if (!table['count(*)']) {
+		log.info('Creating founder_roles table')
+		sql
+			.prepare(
+				'CREATE TABLE founder_roles (server TEXT PRIMARY KEY, role TEXT);',
+			)
+			.run()
+		sql
+			.prepare(
+				'CREATE UNIQUE INDEX idx_founder_roles_id ON founder_roles (server);',
+			)
+			.run()
+	}
 }
 
 // Addresses
@@ -84,6 +105,15 @@ const setAddress = (discordId, address) => {
 		})
 }
 
+const listFounderAddresses = () =>
+	sql
+		.prepare(
+			`SELECT * FROM addresses WHERE address IN (${new Array(
+				founders.length,
+			).fill('?')});`,
+		)
+		.all(founders)
+
 // Event channels
 
 const listEventChannels = event =>
@@ -116,15 +146,47 @@ const removeChannelEvents = channel =>
 		.prepare('DELETE FROM channel_events where channel = @channel;')
 		.run({ channel })
 
+// Founder role channels
+
+const listFounderRoles = () => sql.prepare('SELECT * FROM founder_roles;').all()
+
+const getFounderRole = server => {
+	const role = sql
+		.prepare('SELECT * FROM founder_roles WHERE server = ?;')
+		.get(server)
+	if (role) {
+		return role.role
+	}
+	return null
+}
+
+const setFounderRole = founderRole =>
+	sql
+		.prepare(
+			'INSERT OR REPLACE INTO founder_roles (server, role) VALUES (@server, @role);',
+		)
+		.run(founderRole)
+
+const removeFounderRole = server =>
+	sql
+		.prepare('DELETE FROM founder_roles where server = @server;')
+		.run({ server })
+
 module.exports = {
 	initDatabase,
 	// Addresses
 	getAddress,
 	getDiscordId,
 	setAddress,
+	listFounderAddresses,
 	// Event Channels
 	listEventChannels,
 	getChannelEvents,
 	setChannelEvents,
 	removeChannelEvents,
+	// Founder Role
+	listFounderRoles,
+	getFounderRole,
+	setFounderRole,
+	removeFounderRole,
 }

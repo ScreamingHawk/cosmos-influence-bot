@@ -6,6 +6,7 @@ const { initDatabase } = require('./db/database')
 const asteroids = require('./commands/asteroids')
 const events = require('./commands/events')
 const help = require('./commands/help')
+const roles = require('./commands/roles')
 const verify = require('./commands/verify')
 const userInfo = require('./commands/userInfo')
 const { initListeners } = require('./events/listeners')
@@ -150,6 +151,10 @@ bot.on('message', message => {
 		// Event commands
 		if (command === 'event') {
 			return events.toggleEvent(message, args)
+		}
+		// Roles commands
+		if (command === 'founder') {
+			return roles.setFounderRole(message, args)
 		}
 	}
 })

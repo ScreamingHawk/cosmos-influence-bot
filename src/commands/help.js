@@ -83,6 +83,18 @@ const initHelp = (botArg, prefixArg) => {
 				'Toggle whether or not an event is reported in this channel.',
 			].join('\n'),
 		},
+		founder: {
+			admin: true,
+			short: 'Set a special role for verified founders',
+			detailed: [
+				`\`${prefix}founder @<role>\``,
+				'Set the role granted to founders.',
+				'When a user verifies their address with a founder address, they are granted the given role.',
+				'Remove the founder role setting by calling this command with no arguments.',
+				'Updating this setting won\'t remove the role from existing users.',
+				'The list of founder addresses is hard coded.',
+			].join('\n'),
+		},
 	}
 }
 

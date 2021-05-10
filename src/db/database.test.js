@@ -41,7 +41,7 @@ test('list founder addresses', t => {
 	database.setAddress(discordId3, '0x0')
 
 	// Validate
-	let actuals = database.listFounderAddresses()
+	let actuals = database.listVerifiedFounderAddresses()
 	t.is(2, actuals.length)
 	t.is(founders[0], actuals[0].address)
 	t.is(founders[1], actuals[1].address)

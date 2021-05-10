@@ -1,12 +1,14 @@
 const { ethers } = require('ethers')
 const log = require('../util/logger')
-const { setAddress } = require('../db/database')
+const database = require('../db/database')
+const founders = require('../../founders.json')
 
-let verificationLink
+let bot, verificationLink
 
 const pendingVerifications = {}
 
-const initVerify = verificationLinkArg => {
+const initVerify = (botArg, verificationLinkArg) => {
+	bot = botArg
 	verificationLink = verificationLinkArg
 }
 
@@ -70,9 +72,30 @@ const completeVerification = async (message, args) => {
 			return message.reply('Unable to validate that signature')
 		}
 		log.info(`Verified that ${username} owns ${address}`)
-		setAddress(id, address)
+		database.setAddress(id, address)
 		delete pendingVerifications[id]
 		message.reply('Address verification complete 🚀')
+
+		if (founders.includes(address)){
+			// Check and add founder role in each server
+			log.info(`${username} is a founder`)
+			const founderRoles = database.listFounderRoles()
+			for (let founderRole of founderRoles) {
+				try {
+					const guild = await bot.guilds.fetch(founderRole.server)
+					const member = await guild.members.fetch(id)
+					const role = await guild.roles.fetch(founderRole.role)
+					if (member && role) {
+						log.debug(`${username} is a founder in ${guild.name}`)
+						member.roles.add(role, 'User is a founder')
+					}
+				} catch (err) {
+					// Ignore. This happens when a user is not in the server
+				}
+			}
+		} else {
+			log.debug(`${username} is not a founder`)
+		}
 	}
 }
 

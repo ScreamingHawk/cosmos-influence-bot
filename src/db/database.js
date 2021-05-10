@@ -105,7 +105,7 @@ const setAddress = (discordId, address) => {
 		})
 }
 
-const listFounderAddresses = () =>
+const listVerifiedFounderAddresses = () =>
 	sql
 		.prepare(
 			`SELECT * FROM addresses WHERE address IN (${new Array(
@@ -178,7 +178,7 @@ module.exports = {
 	getAddress,
 	getDiscordId,
 	setAddress,
-	listFounderAddresses,
+	listVerifiedFounderAddresses,
 	// Event Channels
 	listEventChannels,
 	getChannelEvents,

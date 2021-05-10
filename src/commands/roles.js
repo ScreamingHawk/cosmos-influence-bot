@@ -19,12 +19,16 @@ const setFounderRole = async message => {
 		`set the founder role to ${role.name} for this server.\nAdding the role for verified founders`,
 	)
 
-	const founders = database.listFounderAddresses()
+	const founders = database.listVerifiedFounderAddresses()
 	for (let founder of founders) {
-		const member = await guild.members.fetch(founder.discord_id)
-		if (member) {
-			log.debug(`${member.user.username} is a founder`)
-			member.roles.add(role, 'User is a founder')
+		try {
+			const member = await guild.members.fetch(founder.discord_id)
+			if (member) {
+				log.debug(`${member.user.username} is a founder in ${guild.name}`)
+				member.roles.add(role, 'User is a founder')
+			}
+		} catch (err) {
+			// Ignore. This happens when a user is not in the server
 		}
 	}
 }

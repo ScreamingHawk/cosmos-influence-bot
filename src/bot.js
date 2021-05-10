@@ -76,7 +76,7 @@ bot.on('ready', () => {
 	initListeners(bot)
 	// Initialise commands
 	help.initHelp(bot, PREFIX)
-	verify.initVerify(VERIFICATION_LINK)
+	verify.initVerify(bot, VERIFICATION_LINK)
 	userInfo.initUserInfo(bot)
 	asteroids.initAsteroids(bot, provider)
 

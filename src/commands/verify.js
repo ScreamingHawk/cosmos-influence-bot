@@ -76,7 +76,7 @@ const completeVerification = async (message, args) => {
 		delete pendingVerifications[id]
 		message.reply('Address verification complete 🚀')
 
-		if (founders.includes(address)){
+		if (founders.includes(address.toLowerCase())){
 			// Check and add founder role in each server
 			log.info(`${username} is a founder`)
 			const founderRoles = database.listFounderRoles()

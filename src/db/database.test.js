@@ -16,6 +16,8 @@ test.beforeEach(() => {
 	database.initDatabase(testDb)
 })
 
+test.afterEach(database.closeDatabase)
+
 test('address table works', t => {
 	// Set up
 	const address = 'abc123'

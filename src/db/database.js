@@ -72,6 +72,13 @@ const initDatabase = dbFilename => {
 	}
 }
 
+const closeDatabase = () => {
+	if (sql) {
+		sql.close()
+		sql = null
+	}
+}
+
 // Addresses
 
 const getAddress = discordId => {
@@ -174,6 +181,7 @@ const removeFounderRole = server =>
 
 module.exports = {
 	initDatabase,
+	closeDatabase, // For testing
 	// Addresses
 	getAddress,
 	getDiscordId,

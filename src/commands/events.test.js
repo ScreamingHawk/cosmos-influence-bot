@@ -1,4 +1,5 @@
-const test = require('ava')
+const ava = require('ava')
+const test = ava.serial
 const fs = require('fs')
 const events = require('./events')
 const database = require('../db/database')
@@ -14,6 +15,8 @@ test.beforeEach(() => {
 	}
 	database.initDatabase(testDb)
 })
+
+test.afterEach(database.closeDatabase)
 
 const createMockMessage = channel => {
 	return {

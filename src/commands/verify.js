@@ -28,7 +28,7 @@ const prepareVerification = async (message, args) => {
 	}
 
 	const { id, username } = message.author
-	const uname = username.replace(/\s/g, '_')
+	const uname = username.replace(/[^a-zA-Z0-9]/g, '_')
 	pendingVerifications[id] = {
 		username: uname,
 		address,

@@ -13,11 +13,14 @@ const initListeners = async botArg => {
 	const asteroidToken = contractUtil.getContract('AsteroidToken')
 	asteroidToken.on('Transfer', (from, to, tokenId) => {
 		log.debug('Transfer event!')
+		let msg
 		if (from === ethers.constants.AddressZero) {
-			const msg = `Asteroid #${tokenId} was purchased by`
-			log.info(msg + to)
-			sendToEventChannels(bot, 'Transfer', msg, to)
+			msg = `Asteroid #${tokenId} was purchased by`
+		} else {
+			msg = `Asteroid #${tokenId} was transferred to`
 		}
+		log.info(`${msg} ${to}`)
+		sendToEventChannels(bot, 'Transfer', msg, to)
 	})
 
 	// Asteroid Scanned event

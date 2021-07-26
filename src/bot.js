@@ -144,7 +144,7 @@ bot.on('message', message => {
 
 	// Admin commands beyond this point
 	if (
-		(message.memeber !== null &&
+		(message.member !== null &&
 			message.member.hasPermission('ADMINISTRATOR')) ||
 		(TEST_USER && message.author.username === TEST_USER)
 	) {

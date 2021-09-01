@@ -16,10 +16,13 @@ const initAsteroids = (botArg, providerArg) => {
 	provider = providerArg
 }
 
-const getRoidLinks = id =>
-	`[Influence](${influenceApi.getAsteroidUrl(
-		id,
-	)}) | [OpenSea](${openseaApi.getAsteroidUrl(id)})`
+const getRoidLinks = (id, owned) => {
+	let link = `[Influence](${influenceApi.getAsteroidUrl(id)})`
+	if (owned) {
+		link += ` | [OpenSea](${openseaApi.getAsteroidUrl(id)})`
+	}
+	return link
+}
 
 // Output asteroid details
 const showAsteroidDetails = async (message, args) => {
@@ -58,7 +61,7 @@ const showAsteroidDetails = async (message, args) => {
 	roid.bonuses.map(t =>
 		embed.addField(t.name.replace(/\d/g, ''), `+${t.modifier}%`, true),
 	)
-	embed.addField('Links', `View on: ${getRoidLinks(id)}`, false)
+	embed.addField('Links', `View on: ${getRoidLinks(id, roid.owner)}`, false)
 	embed.setFooter('Data provided by Influence', bot.user.displayAvatarURL())
 
 	return message.channel.send({ embed })
@@ -128,7 +131,7 @@ const showUserAsteroids = async (message, args) => {
 			influenceApi.addDescription(details)
 			embed.addField(
 				`#${roid.token_id} ${roid.name}`,
-				`${details.description}\n${getRoidLinks(roid.token_id)}`,
+				`${details.description}\n${getRoidLinks(roid.token_id, true)}`,
 			)
 		}
 	}

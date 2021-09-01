@@ -1,7 +1,8 @@
 const ethers = require('ethers')
 const influence = require('influence-utils')
-const { listEventChannels, getDiscordId } = require('../db/database')
+const { listEventChannels } = require('../db/database')
 const contractUtil = require('../util/contractUtil')
+const { getMemberOrAddress } = require('../util/discordUtil')
 const log = require('../util/logger')
 
 let bot
@@ -33,22 +34,10 @@ const initListeners = async botArg => {
 
 const sendToEventChannels = async (bot, event, message, address) => {
 	const channels = listEventChannels(event).map(events => events.channel)
-	const discordId = address ? getDiscordId(address) : null
 	for (let c of channels) {
 		const chan = bot.channels.cache.get(c)
-		if (discordId) {
-			// Check the user is in this guild
-			const member = await chan.guild.members.fetch(discordId)
-			if (member) {
-				chan.send(`${message} ${member}`)
-				continue
-			}
-		}
-		if (address) {
-			chan.send(`${message} \`${address}\``)
-		} else {
-			chan.send(`${message}`)
-		}
+		const tag = await getMemberOrAddress(chan.guild, address)
+		chan.send(`${message} ${tag}`)
 	}
 }
 

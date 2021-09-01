@@ -1,3 +1,4 @@
+const { getDiscordId } = require('../db/database')
 const log = require('./logger')
 
 const checkAdmin = (message, alert = true) => {
@@ -27,6 +28,25 @@ const checkAdmin = (message, alert = true) => {
 	return true
 }
 
+const getMemberOrAddress = async (guild, address) => {
+	if (!address) {
+		return null
+	}
+	const discordId = getDiscordId(address)
+	if (discordId) {
+		try {
+			const member = await guild.members.fetch(discordId)
+			if (member) {
+				return member
+			}
+		} catch (err) {
+			// Fail out
+		}
+	}
+	return '`' + address + '`'
+}
+
 module.exports = {
 	checkAdmin,
+	getMemberOrAddress,
 }

@@ -59,6 +59,11 @@ Populate the `INFURA_PROJECT_ID` and `INFURA_PROJECT_SECRET` values.
 Request an API key from a member of the Influence development team via the [Influence Discord](https://discord.gg/pEeBHF8WsK).
 Populate the `INFLUENCE_API_KEY` value.
 
+Populate the `OPENSEA_API_KEY` with an API key [requested from OpenSea](https://docs.opensea.io/reference#request-an-api-key).
+This is optional, but recommended to avoid rate limiting.
+
+Populate `SALES_CHANNEL_ID` with the channel id you would like sales to appear in.
+
 ### Build
 
 Install `node` and `yarn`.

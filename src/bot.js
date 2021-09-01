@@ -13,6 +13,7 @@ const { initListeners } = require('./events/listeners')
 const { initPresence } = require('./events/presence')
 const { initContracts } = require('./util/contractUtil')
 const { initInfluenceApi } = require('./util/influenceApi')
+const { initSales } = require('./schedule/sales')
 
 // Get token
 const TOKEN = process.env.DISCORD_TOKEN
@@ -74,6 +75,8 @@ bot.on('ready', () => {
 	initPresence(bot)
 	// Initialise listeners
 	initListeners(bot)
+	// Initialise schedules
+	initSales(bot)
 	// Initialise commands
 	help.initHelp(bot, PREFIX)
 	verify.initVerify(bot, VERIFICATION_LINK)

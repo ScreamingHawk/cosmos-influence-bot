@@ -6,6 +6,7 @@ const { TEST_ADDRESS } = require('../util/constants')
 
 const database = require('../db/database')
 const openseaApi = require('../util/openseaApi')
+const logger = require('../util/logger')
 
 // Mocks
 
@@ -44,6 +45,8 @@ const createMessage = (
 
 test.before(() => {
 	asteroids.initAsteroids(mockBot, null)
+	const sendErrStub = sinon.stub(logger, 'sendErr')
+	sendErrStub.returns(null)
 })
 
 // Tests

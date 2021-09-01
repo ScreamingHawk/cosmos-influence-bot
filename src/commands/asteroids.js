@@ -35,7 +35,7 @@ const showAsteroidDetails = async (message, args) => {
 	try {
 		roid = await influenceApi.getAsteroid(id)
 	} catch (err) {
-		log.error(errorMsg, err)
+		log.sendErr(bot, `${errorMsg}: ${err.message}`)
 		return message.reply(errorMsg)
 	}
 	if (!roid) {
@@ -108,7 +108,7 @@ const showUserAsteroids = async (message, args) => {
 		const total = await tokenContract.balanceOf(address)
 		totalPages = Math.ceil(total / openseaApi.API_LIMIT)
 	} catch (err) {
-		log.error(errorMsg, err)
+		log.sendErr(bot, `${errorMsg}: ${err.message}`)
 		return message.reply(errorMsg)
 	}
 	if (!roids) {

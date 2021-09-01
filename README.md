@@ -46,6 +46,10 @@ Set the prefix for commands using `PREFIX`.
 
 Set the `TEST_USER` for testing purposes defined in the test section below.
 
+Set the `MAINTAINER_DISCORD` to the discord user id of the developer.
+This user will receieve messages when errors / logging occours.
+It's not too spammy...
+
 Update the `VERIFICATION_LINK` to point to a location where the user is able to sign messages.
 **Note**: There is a web page included in this repository which can be pointed at using a raw git service like [githack](https://raw.githack.com).
 

@@ -68,7 +68,10 @@ const completeVerification = async (message, args) => {
 				)
 			}
 		} catch (err) {
-			log.error('Unable to validate signature', err)
+			log.sendErr(
+				bot,
+				`Unable to validate signature of ${username}: ${err.message}`,
+			)
 			return message.reply('Unable to validate that signature')
 		}
 		log.info(`Verified that ${username} owns ${address}`)
@@ -76,7 +79,7 @@ const completeVerification = async (message, args) => {
 		delete pendingVerifications[id]
 		message.reply('Address verification complete 🚀')
 
-		if (founders.includes(address.toLowerCase())){
+		if (founders.includes(address.toLowerCase())) {
 			// Check and add founder role in each server
 			log.info(`${username} is a founder`)
 			const founderRoles = database.listFounderRoles()

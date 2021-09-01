@@ -32,7 +32,7 @@ const showUser = async (message, args) => {
 	try {
 		user = await bot.users.fetch(id)
 	} catch (err) {
-		log.error('Unable to get user by id', err)
+		log.sendErr(bot, `Unable to get user by id: ${err.message}`)
 		return message.reply(`no user linked to address \`${address}\``)
 	}
 	if (!user) {

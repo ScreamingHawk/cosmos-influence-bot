@@ -80,7 +80,7 @@ bot.on('ready', () => {
 	userInfo.initUserInfo(bot)
 	asteroids.initAsteroids(bot, provider)
 
-	log.info('Cosmos initialised')
+	log.sendInfo(bot, `Cosmos initialised with prefix ${PREFIX}`)
 })
 
 bot.on('message', message => {

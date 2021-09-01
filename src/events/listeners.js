@@ -63,7 +63,7 @@ const getAsteroidScannedMessage = async (asteroidId, bonuses) => {
 		const rarity = influence.toRarity(influence.toBonuses(bonuses, spectral))
 		msg += ` and is \`${rarity}\``
 	} catch (err) {
-		log.error('Error getting spectral type', err)
+		log.sendErr(bot, `Error getting spectral type: ${err.message}`)
 	}
 
 	log.info(msg)

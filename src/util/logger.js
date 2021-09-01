@@ -1,6 +1,9 @@
+require('dotenv').config()
 const { transports, createLogger, format } = require('winston')
 
-module.exports = createLogger({
+const { MAINTAINER_DISCORD } = process.env
+
+const log = createLogger({
 	level: 'debug',
 	format: format.combine(
 		format.timestamp(),
@@ -10,3 +13,24 @@ module.exports = createLogger({
 	),
 	transports: [new transports.Console()],
 })
+
+module.exports = log
+
+const sendToUser = async (bot, err) => {
+	if (bot && MAINTAINER_DISCORD) {
+		const user = await bot.users.fetch(MAINTAINER_DISCORD)
+		if (user) {
+			user.send(err)
+		}
+	}
+}
+
+module.exports.sendInfo = async (bot, err) => {
+	log.info(err)
+	await sendToUser(bot, err)
+}
+
+module.exports.sendErr = async (bot, err) => {
+	log.error(err)
+	await sendToUser(bot, err)
+}

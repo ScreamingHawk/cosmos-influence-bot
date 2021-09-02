@@ -21,6 +21,7 @@ const getRoidLinks = (id, owned) => {
 	if (owned) {
 		link += ` | [OpenSea](${openseaApi.getAsteroidUrl(id)})`
 	}
+	link += ` | [adalia.info](https://adalia.info/asteroids/${id})`
 	return link
 }
 

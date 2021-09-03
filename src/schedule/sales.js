@@ -51,7 +51,7 @@ const checkSales = async (bot, channel) => {
 							const embed = new Discord.MessageEmbed().setColor(0x66ccff)
 
 							embed
-								.setTitle(`#${asset.id} ${asset.name} was sold`)
+								.setTitle(`#${asset.token_id} ${asset.name} was sold`)
 								.setImage(asset.image_url)
 
 							// Amounts

@@ -6,6 +6,7 @@ const log = require('../util/logger')
 const openseaApi = require('../util/openseaApi')
 const { formatEther, formatDollar } = require('../util/format')
 const { getMemberOrAddress } = require('../util/discordUtil')
+const { getRoidLinks } = require('../util/common')
 
 const CHECK_INTERVAL = 120 * 1000 // 120 sec
 let salesInterval
@@ -73,7 +74,7 @@ const checkSales = async (bot, channel) => {
 							if (asset) {
 								embed.addField(
 									'Links',
-									`View on [OpenSea](${asset.permalink})`,
+									getRoidLinks(asset.permalink, true),
 									false,
 								)
 							}

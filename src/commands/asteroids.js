@@ -7,6 +7,7 @@ const influenceApi = require('../util/influenceApi')
 const openseaApi = require('../util/openseaApi')
 const { formatNumber } = require('../util/format')
 const help = require('./help')
+const { getRoidLinks } = require('../util/common')
 
 let bot, provider
 
@@ -14,15 +15,6 @@ const initAsteroids = (botArg, providerArg) => {
 	bot = botArg
 	//eslint-disable-next-line no-unused-vars
 	provider = providerArg
-}
-
-const getRoidLinks = (id, owned) => {
-	let link = `[Influence](${influenceApi.getAsteroidUrl(id)})`
-	if (owned) {
-		link += ` | [OpenSea](${openseaApi.getAsteroidUrl(id)})`
-	}
-	link += ` | [adalia.info](https://adalia.info/asteroids/${id})`
-	return link
 }
 
 // Output asteroid details
@@ -62,7 +54,7 @@ const showAsteroidDetails = async (message, args) => {
 	roid.bonuses.map(t =>
 		embed.addField(t.name.replace(/\d/g, ''), `+${t.modifier}%`, true),
 	)
-	embed.addField('Links', `View on: ${getRoidLinks(id, roid.owner)}`, false)
+	embed.addField('Links', getRoidLinks(id, roid.owner), false)
 	embed.setFooter('Data provided by Influence', bot.user.displayAvatarURL())
 
 	return message.channel.send({ embed })

@@ -74,7 +74,7 @@ const checkSales = async (bot, channel) => {
 							if (asset) {
 								embed.addField(
 									'Links',
-									getRoidLinks(asset.permalink, true),
+									getRoidLinks(asset.token_id, true),
 									false,
 								)
 							}

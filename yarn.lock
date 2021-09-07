@@ -2419,10 +2419,10 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-influence-utils@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/influence-utils/-/influence-utils-0.5.0.tgz#93567cee5a7020241724f36e9212b64deb97d893"
-  integrity sha512-cV2exiqh+KNCsHtrFD8dejN2epSyl+ZBQv3nJiy7dY2lTpa4Lm+Us7HbRr39vcibES1HlIzGa3zHnf/SvJ8H6A==
+influence-utils@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/influence-utils/-/influence-utils-1.0.0.tgz#7d538905e8f7eeb409a4800d818c2da99e7c7913"
+  integrity sha512-rzFn/C58yCdvIpjR5XB2nYQ9uDbWOCdYEwZZc0wEU87KgttH+W/H0zVpq18sGh51spMLVS1ExNgIRtO2M9eKHQ==
 
 inherits@2, inherits@2.0.4, inherits@^2.0.3, inherits@^2.0.4, inherits@~2.0.1, inherits@~2.0.3:
   version "2.0.4"

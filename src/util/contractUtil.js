@@ -8,6 +8,7 @@ const addresses = {
 	AsteroidScans: '0x9b811024635626bc37E5d294B384077AB25DCF62',
 	AsteroidFeatures: '0x99Ce24101bc957A0d02EC65AB7e3B507Fee42a13',
 	AsteroidNames: '0x7391833C841D8abf62F8ee332015723528035a99',
+	CrewToken: '0x746db7b1728af413c4e2b98216c6171b2fc9d00e',
 }
 const contracts = {}
 

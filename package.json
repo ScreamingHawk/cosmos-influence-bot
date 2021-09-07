@@ -27,7 +27,7 @@
     "discord.js": "^12.4.1",
     "dotenv": "^8.2.0",
     "ethers": "^5.1.1",
-    "influence-utils": "^0.5.0",
+    "influence-utils": "^1.0.0",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "pm2": "^4.5.6",

@@ -10,12 +10,22 @@ let bot
 const initListeners = async botArg => {
 	bot = botArg
 
-	// Transfer event
+	// Transfer event Asteroid
 	const asteroidToken = contractUtil.getContract('AsteroidToken')
 	asteroidToken.on('Transfer', (from, to, tokenId) => {
-		log.debug('Transfer event!')
+		log.debug('Asteroid transfer event!')
 		if (from === ethers.constants.AddressZero) {
 			const msg = `Asteroid #${tokenId} was purchased by`
+			log.info(msg + to)
+			sendToEventChannels(bot, 'Transfer', msg, to)
+		}
+	})
+	// Transfer event Crew
+	const crewToken = contractUtil.getContract('CrewToken')
+	crewToken.on('Transfer', (from, to, tokenId) => {
+		log.debug('Crew transfer event!')
+		if (from === ethers.constants.AddressZero) {
+			const msg = `Crew #${tokenId} was purchased by`
 			log.info(msg + to)
 			sendToEventChannels(bot, 'Transfer', msg, to)
 		}

@@ -15,7 +15,7 @@ const initListeners = async botArg => {
 	asteroidToken.on('Transfer', (from, to, tokenId) => {
 		log.debug('Asteroid transfer event!')
 		if (from === ethers.constants.AddressZero) {
-			const msg = `Asteroid #${tokenId} was purchased by`
+			const msg = `Asteroid #${tokenId} was minted by`
 			log.info(msg + to)
 			sendToEventChannels(bot, 'Transfer', msg, to)
 		}
@@ -25,7 +25,7 @@ const initListeners = async botArg => {
 	crewToken.on('Transfer', (from, to, tokenId) => {
 		log.debug('Crew transfer event!')
 		if (from === ethers.constants.AddressZero) {
-			const msg = `Crew #${tokenId} was purchased by`
+			const msg = `Crew #${tokenId} was minted by`
 			log.info(msg + to)
 			sendToEventChannels(bot, 'Transfer', msg, to)
 		}

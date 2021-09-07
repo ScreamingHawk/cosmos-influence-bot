@@ -38,7 +38,6 @@ const {
 	VERIFICATION_LINK,
 	INFURA_PROJECT_ID,
 	INFURA_PROJECT_SECRET,
-	INFLUENCE_API_KEY,
 } = process.env
 if (!VERIFICATION_LINK) {
 	log.error(
@@ -48,11 +47,6 @@ if (!VERIFICATION_LINK) {
 if (!INFURA_PROJECT_ID || !INFURA_PROJECT_SECRET) {
 	log.error(
 		'Running without Infura API details. You will not be able to do anything on chain',
-	)
-}
-if (!INFLUENCE_API_KEY) {
-	log.error(
-		'Running without Influence API key. You will not be able to get game state information',
 	)
 }
 
@@ -70,7 +64,7 @@ bot.on('ready', () => {
 
 	// Initialise utils
 	initContracts(provider)
-	initInfluenceApi(INFLUENCE_API_KEY)
+	initInfluenceApi(bot)
 	// Initialise discord presence
 	initPresence(bot)
 	// Initialise listeners

@@ -58,10 +58,10 @@ if (!INFLUENCE_API_KEY) {
 
 // Spin up bot
 const bot = new Discord.Client()
-const provider = new ethers.providers.InfuraProvider(
-	'homestead',
-	INFURA_PROJECT_ID,
-)
+const provider = new ethers.providers.InfuraProvider('homestead', {
+	projectId: INFURA_PROJECT_ID,
+	projectSecret: INFURA_PROJECT_SECRET,
+})
 provider.ready.then(() => {
 	log.info('Infura provider is ready')
 })

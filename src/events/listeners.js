@@ -46,8 +46,12 @@ const sendToEventChannels = async (bot, event, message, address) => {
 	const channels = listEventChannels(event).map(events => events.channel)
 	for (let c of channels) {
 		const chan = bot.channels.cache.get(c)
-		const tag = await getMemberOrAddress(chan.guild, address)
-		chan.send(`${message} ${tag}`)
+		if (address) {
+			const tag = await getMemberOrAddress(chan.guild, address)
+			chan.send(`${message} ${tag}`)
+		} else {
+			chan.send(message)
+		}
 	}
 }
 

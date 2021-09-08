@@ -1,7 +1,7 @@
 const fetch = require('node-fetch')
 const { addresses } = require('./contractUtil')
 const log = require('./logger')
-const { OPENSEA_SLUG } = require('./constants')
+const { OPENSEA_ROID_SLUG, OPENSEA_CREW_SLUG } = require('./constants')
 
 const OPENSEA_URL = 'https://opensea.io/assets'
 const OPENSEA_API = 'https://api.opensea.io/api/v1'
@@ -20,6 +20,8 @@ const makeRequest = async api => {
 const getAsteroidUrl = id =>
 	`${OPENSEA_URL}/${addresses['AsteroidToken']}/${id}`
 
+const getCrewUrl = id => `${OPENSEA_URL}/${addresses['CrewToken']}/${id}`
+
 const getAsteroid = async id => {
 	const api = `${OPENSEA_API}/asset/${addresses['AsteroidToken']}/${id}`
 	return await makeRequest(api)
@@ -31,8 +33,8 @@ const getUserAsteroids = async (address, page = 1) => {
 	return await makeRequest(api)
 }
 
-const getSaleEvents = async after => {
-	let api = `${OPENSEA_API}/events?collection_slug=${OPENSEA_SLUG}&event_type=successful&limit=${API_LIMIT}`
+const getSaleEvents = async (slug, after) => {
+	let api = `${OPENSEA_API}/events?collection_slug=${slug}&event_type=successful&limit=${API_LIMIT}`
 	if (after) {
 		// Add unix timestamp
 		api += `&occurred_after=${after.unix()}`
@@ -40,10 +42,20 @@ const getSaleEvents = async after => {
 	return await makeRequest(api)
 }
 
+const getAsteroidSaleEvents = async after => {
+	return await getSaleEvents(OPENSEA_ROID_SLUG, after)
+}
+
+const getCrewSaleEvents = async after => {
+	return await getSaleEvents(OPENSEA_CREW_SLUG, after)
+}
+
 module.exports = {
 	getAsteroidUrl,
+	getCrewUrl,
 	getAsteroid,
 	getUserAsteroids,
-	getSaleEvents,
+	getAsteroidSaleEvents,
+	getCrewSaleEvents,
 	API_LIMIT,
 }

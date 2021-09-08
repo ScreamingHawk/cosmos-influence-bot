@@ -10,6 +10,9 @@ const getRoidLinks = (id, owned) => {
 	return link
 }
 
+const getCrewLinks = id => `[OpenSea](${openseaApi.getCrewUrl(id)})`
+
 module.exports = {
 	getRoidLinks,
+	getCrewLinks,
 }

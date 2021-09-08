@@ -6,25 +6,25 @@ const log = require('../util/logger')
 const openseaApi = require('../util/openseaApi')
 const { formatEther, formatDollar } = require('../util/format')
 const { getMemberOrAddress } = require('../util/discordUtil')
-const { getRoidLinks } = require('../util/common')
+const { getRoidLinks, getCrewLinks } = require('../util/common')
 
-const CHECK_INTERVAL = 120 * 1000 // 120 sec
+const CHECK_INTERVAL = 60 * 1000 // 60 sec
 let salesInterval
-let salesLastChecked
+let roidsLastChecked
+let crewLastChecked
 
-const checkSales = async (bot, channel) => {
-	log.debug('Running check sales')
+const enhanceRoidData = (embed, asset) => {
+	embed.addField('Links', getRoidLinks(asset.token_id, true), false)
+}
 
-	const newNow = moment()
-	const orders = await openseaApi.getSaleEvents(salesLastChecked)
+const enhanceCrewData = (embed, asset) => {
+	embed.addField('Links', getCrewLinks(asset.token_id, true), false)
+}
+
+const postSales = async (bot, channel, orders, enhance) => {
 	if (orders && orders.asset_events) {
 		log.debug(`Got ${orders.asset_events.length} sales`)
 		if (orders.asset_events.length > 0) {
-			// Sort by date
-			orders.asset_events.sort((a, b) =>
-				moment(a.created_date).diff(moment(b.created_date)),
-			)
-
 			for (const event of orders.asset_events) {
 				try {
 					const { asset, payment_token, seller, winner_account } = event
@@ -71,13 +71,9 @@ const checkSales = async (bot, channel) => {
 							embed.addField('From', `${sellerTag}`)
 							embed.addField('To', `${winnerTag}`)
 
-							if (asset) {
-								embed.addField(
-									'Links',
-									getRoidLinks(asset.token_id, true),
-									false,
-								)
-							}
+							// Enhance embed with specific data
+							enhance(embed, asset)
+
 							embed.setFooter(
 								'Data provided by OpenSea',
 								bot.user.displayAvatarURL(),
@@ -92,14 +88,36 @@ const checkSales = async (bot, channel) => {
 					log.sendErr(bot, `Error reading sale: ${err}`)
 				}
 			}
-			salesLastChecked = newNow
 		}
+	}
+}
+
+let checkRoids = false
+
+const checkSales = async (bot, channel) => {
+	if (checkRoids) {
+		log.debug('Running check asteroid sales')
+		const newNow = moment()
+		const orders = await openseaApi.getAsteroidSaleEvents(roidsLastChecked)
+		if (orders && orders.asset_events && orders.asset_events.length > 0) {
+			roidsLastChecked = newNow
+		}
+		return await postSales(bot, channel, orders, enhanceRoidData)
+	} else {
+		log.debug('Running check crew sales')
+		const newNow = moment()
+		const orders = await openseaApi.getCrewSaleEvents(crewLastChecked)
+		if (orders && orders.asset_events && orders.asset_events.length > 0) {
+			crewLastChecked = newNow
+		}
+		return await postSales(bot, channel, orders, enhanceCrewData)
 	}
 }
 
 const initSales = async bot => {
 	// sales
-	salesLastChecked = moment()
+	roidsLastChecked = moment()
+	crewLastChecked = moment()
 	if (salesInterval) {
 		clearInterval(salesInterval)
 	}

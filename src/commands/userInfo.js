@@ -39,7 +39,7 @@ const showUser = async (message, args) => {
 		log.info('No user in discord')
 		return message.reply(`no user linked to address \`${address}\``)
 	}
-	return message.reply(`\`${address}\` to linked to ${user.username}`)
+	return message.reply(`\`${address}\` is linked to ${user.username}`)
 }
 
 module.exports = {

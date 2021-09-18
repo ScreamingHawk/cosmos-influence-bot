@@ -1,6 +1,6 @@
 {
   "name": "cosmos-bot",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Cosmos - A discord bot for Influence",
   "main": "src/bot.js",
   "repository": "https://github.com/ScreamingHawk/cosmos-bot.git",

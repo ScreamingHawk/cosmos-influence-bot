@@ -102,7 +102,7 @@ const checkSales = async (bot, channel) => {
 		if (orders && orders.asset_events && orders.asset_events.length > 0) {
 			roidsLastChecked = newNow
 		}
-		return await postSales(bot, channel, orders, enhanceRoidData)
+		await postSales(bot, channel, orders, enhanceRoidData)
 	} else {
 		log.debug('Running check crew sales')
 		const newNow = moment()
@@ -110,8 +110,9 @@ const checkSales = async (bot, channel) => {
 		if (orders && orders.asset_events && orders.asset_events.length > 0) {
 			crewLastChecked = newNow
 		}
-		return await postSales(bot, channel, orders, enhanceCrewData)
+		await postSales(bot, channel, orders, enhanceCrewData)
 	}
+	checkRoids = !checkRoids
 }
 
 const initSales = async bot => {

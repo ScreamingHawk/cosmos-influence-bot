@@ -47,18 +47,20 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	// Get the query params
-	let username, address
+	let username, address, nonce
 	const qs = window.location.search.substr(1)
 	qs.split('&').forEach(q => {
 		const [k, v] = q.split('=')
 		if (k === 'username') {
 			username = v
+		} else if (k === 'nonce') {
+			nonce = v
 		} else if (k === 'address') {
 			document.getElementById('address').innerText = v
 			address = v.toLowerCase()
 		}
 	})
-	if (!username || !address) {
+	if (!username || !address || !nonce) {
 		console.log('Missing query params')
 		return renderMessage('Invalid link! Please check your link and try again.')
 	}
@@ -89,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Verify button
 	const signButton = document.getElementById('sign')
 	signButton.addEventListener('click', async () => {
-		const msg = `${username} owns ${address}`
+		const msg = `Sign this message to prove ${username} owns the address: ${address}\n\nCode: ${nonce}`
 		let signature
 		try {
 			// signature = await signer.signMessage(msg)

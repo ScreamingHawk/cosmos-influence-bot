@@ -1,4 +1,5 @@
 const { ethers } = require('ethers')
+const { randomBytes } = require('crypto')
 const log = require('../util/logger')
 const database = require('../db/database')
 const founders = require('../../founders.json')
@@ -29,12 +30,14 @@ const prepareVerification = async (message, args) => {
 
 	const { id, username } = message.author
 	const uname = username.replace(/[^a-zA-Z0-9]/g, '_')
+	const nonce = randomBytes(16).toString('hex')
 	pendingVerifications[id] = {
 		username: uname,
+		nonce,
 		address,
 	}
 
-	const link = `${verificationLink}?username=${uname}&address=${address}`
+	const link = `${verificationLink}?username=${uname}&address=${address}&nonce=${nonce}`
 
 	if (message.guild) {
 		message.reply('initiating private communications...')
@@ -56,10 +59,10 @@ const completeVerification = async (message, args) => {
 	const signature = args[0]
 	if (isPending(message) && signature) {
 		const { id } = message.author
-		const { username, address } = pendingVerifications[id]
+		const { username, address, nonce } = pendingVerifications[id]
 		try {
 			const signer = ethers.utils.verifyMessage(
-				`${username} owns ${address}`,
+				`Sign this message to prove ${username} owns the address: ${address}\n\nCode: ${nonce}`,
 				signature,
 			)
 			if (signer.toLowerCase() !== address) {

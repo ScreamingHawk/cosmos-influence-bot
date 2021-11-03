@@ -116,3 +116,9 @@ yarn test
 This software is provided under the [MIT License](https://tldrlegal.com/license/mit-license) so it's free to use so long as you give me credit.
 
 To support the project you can donate some ether to `0x455fef5aeCACcd3a43A4BCe2c303392E10f22C63`.
+
+## Licensing
+
+Due to an updating in licensing, updates to Cosmos will no longer be pushed to this repo.
+
+This repository remains open as an informational resource under the MIT license applied at the time of development.

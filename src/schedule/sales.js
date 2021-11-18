@@ -92,9 +92,11 @@ const postSales = async (bot, channel, orders, enhance) => {
 	}
 }
 
+// Toggles on first attempt
 let checkRoids = false
 
 const checkSales = async (bot, channel) => {
+	checkRoids = !checkRoids
 	if (checkRoids) {
 		log.debug('Running check asteroid sales')
 		const newNow = moment()
@@ -112,7 +114,6 @@ const checkSales = async (bot, channel) => {
 		}
 		await postSales(bot, channel, orders, enhanceCrewData)
 	}
-	checkRoids = !checkRoids
 }
 
 const initSales = async bot => {

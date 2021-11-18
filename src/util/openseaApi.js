@@ -14,6 +14,9 @@ const headers = OPENSEA_API_KEY ? { 'X-API-KEY': OPENSEA_API_KEY } : {}
 const makeRequest = async api => {
 	log.debug(`Requesting ${api}`)
 	const res = await fetch(api, { method: 'GET', headers })
+	if (!res.ok) {
+		log.error(`Opensea status code: ${res.status}`)
+	}
 	return await res.json()
 }
 
